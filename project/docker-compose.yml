@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  idp:
+    image: dexidp/dex
+    stdin_open: true
+    ports:
+      - '5556:5556'
+    volumes:
+      - ./dex:/etc/dex
+    command:
+      - dex serve /etc/dex/config.yaml
