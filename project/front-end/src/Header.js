@@ -56,6 +56,7 @@ export default function Header({
         oauth ?
           <span>
             {oauth.email}
+            {oauth.name}
             <Link onClick={onClickLogout}>logout</Link>
           </span>
         :

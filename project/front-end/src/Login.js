@@ -142,7 +142,7 @@ export default function Login({
     token_endpoint: 'http://127.0.0.1:5556/dex/token',
     client_id: 'webtech-frontend',
     redirect_uri: 'http://127.0.0.1:3000',
-    scope: 'openid%20email%20offline_access',
+    scope: 'openid%20email%20offline_access%20profile',
   }
   const params = new URLSearchParams(window.location.search)
   const code = params.get('code')
