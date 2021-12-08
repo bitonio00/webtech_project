@@ -31,6 +31,14 @@ app.post('/channels', async (req, res) => {
   res.status(201).json(channel)
 })
 
+app.delete('/channels/:id/messages', authenticate, async (req, res) => {
+  console.log("eee")
+  if (req.user.name !== req.body.author) res.status(401).send()
+  const result = await db.messages.delete(req.body)
+  res.status(201).json(result)
+})
+
+
 app.get('/channels/:id', async (req, res) => {
   const channel = await db.channels.get(req.params.id)
   res.json(channel)

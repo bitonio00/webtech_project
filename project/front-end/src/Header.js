@@ -62,7 +62,7 @@ export default function Header({
         :
           <span>new user</span>
       }
-      
+
     </header>
   );
 }

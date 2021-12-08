@@ -2,6 +2,9 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from 'react'
 import axios from 'axios';
+import { useContext } from 'react';
+//local
+import Context from '../Context';
 // Layout
 import { Button, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
@@ -32,6 +35,9 @@ export default function Form({
   addMessage,
   channel,
 }) {
+  const {
+    oauth
+  } = useContext(Context)
   const [content, setContent] = useState('')
   const styles = useStyles(useTheme())
   const onSubmit = async () => {
@@ -39,7 +45,7 @@ export default function Form({
       `http://localhost:3001/channels/${channel.id}/messages`
     , {
       content: content,
-      author: 'david',
+      author: oauth.name,
     })
     addMessage(message)
     setContent('')

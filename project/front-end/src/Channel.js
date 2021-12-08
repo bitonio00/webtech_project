@@ -36,6 +36,7 @@ export default function Channel() {
   const { id } = useParams()
   const {channels, oauth} = useContext(Context)
   const channel = channels.find( channel => channel.id === id)
+
   const styles = useStyles(useTheme())
   const listRef = useRef()
   const [messages, setMessages] = useState([])
@@ -48,7 +49,7 @@ export default function Channel() {
       try{
         const {data: messages} = await axios.get(`http://localhost:3001/channels/${id}/messages`, {
           headers: {
-            // TODO: secure the request
+          
           }
         })
         setMessages(messages)
@@ -76,9 +77,11 @@ export default function Channel() {
       <List
         channel={channel}
         messages={messages}
+        setMessages={setMessages}
         onScrollDown={onScrollDown}
         ref={listRef}
       />
+
       <Form addMessage={addMessage} channel={channel} />
       <Fab
         color="primary"

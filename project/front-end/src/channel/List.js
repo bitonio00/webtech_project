@@ -1,8 +1,14 @@
 
 /** @jsxImportSource @emotion/react */
-import {forwardRef, useImperativeHandle, useLayoutEffect, useRef} from 'react'
+import {forwardRef, useImperativeHandle, useLayoutEffect, useRef, useContext, useNavigate} from 'react'
+import axios from 'axios';
+
 // Layout
 import { useTheme } from '@mui/styles';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+//localhost
+import Context from '../Context'
 // Markdown
 import { unified } from 'unified'
 import markdown from 'remark-parse'
@@ -12,6 +18,7 @@ import html from 'rehype-stringify'
 import dayjs from 'dayjs'
 import calendar from 'dayjs/plugin/calendar'
 import updateLocale from 'dayjs/plugin/updateLocale'
+
 dayjs.extend(calendar)
 dayjs.extend(updateLocale)
 dayjs.updateLocale('en', {
@@ -53,9 +60,13 @@ const useStyles = (theme) => ({
 
 export default forwardRef(({
   channel,
-  messages,
   onScrollDown,
+  messages,
+  setMessages
 }, ref) => {
+
+  const { oauth } = useContext(Context)
+
   const styles = useStyles(useTheme())
   // Expose the `scroll` action
   useImperativeHandle(ref, () => ({
@@ -83,6 +94,18 @@ export default forwardRef(({
     rootNode.addEventListener('scroll', handleScroll)
     return () => rootNode.removeEventListener('scroll', handleScroll)
   })
+
+  const onDelete = async (message) => {
+    const res = await axios.delete(`http://localhost:3001/channels/${message.channelId}/messages`, {
+      data: message,
+      headers: {
+        'Authorization': `Bearer ${oauth.access_token}`
+      }
+    })
+    if (res.data.status === 'ok') setMessages(messages.filter(e => e.creation !== message.creation && e.channelId === message.channelId))
+    else alert('oups something went wrong')
+  }
+
   return (
     <div css={styles.root} ref={rootEl}>
       <h1>Messages for {channel.name}</h1>
@@ -99,6 +122,14 @@ export default forwardRef(({
                   <span>{message.author}</span>
                   {' - '}
                   <span>{dayjs().calendar(message.creation)}</span>
+
+                  { (message.author===oauth.name) ?
+                  <IconButton aria-label="delete" onClick={()=>onDelete(message)}>
+                  <DeleteIcon />
+                  </IconButton>
+                  :
+                  <span></span>
+                }
                 </p>
                 <div dangerouslySetInnerHTML={{__html: value}}>
                 </div>
