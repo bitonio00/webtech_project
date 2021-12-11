@@ -1,6 +1,6 @@
 
 /** @jsxImportSource @emotion/react */
-import {forwardRef, useImperativeHandle, useLayoutEffect, useRef, useContext, useNavigate} from 'react'
+import {forwardRef, useImperativeHandle, useLayoutEffect, useRef, useContext, useNavigate, useEffect,useState} from 'react'
 import axios from 'axios';
 
 // Layout
@@ -66,8 +66,24 @@ export default forwardRef(({
 }, ref) => {
 
   const { oauth } = useContext(Context)
-
+  const [state,setState]=useState(false)
   const styles = useStyles(useTheme())
+   useEffect( () => {
+    console.log("useEffect")
+    const fetch = async () => {
+
+        const {data: messages} = await axios.get(`http://localhost:3001/channels/${channel.id}/messages`, {
+          headers: {
+
+          }
+        })
+        setMessages(messages)
+
+
+    }
+    fetch()
+   setState(false)
+ },[state])
   // Expose the `scroll` action
   useImperativeHandle(ref, () => ({
     scroll: scroll
@@ -95,11 +111,11 @@ export default forwardRef(({
     return () => rootNode.removeEventListener('scroll', handleScroll)
   })
 
-  const onDelete = async (message) => {
-    const res = await axios.delete(`http://localhost:3001/channels/${message.channelId}/messages`, {
+   const  onDelete = async (message) => {
+      const res = await axios.delete(`http://localhost:3001/channels/${message.channelId}/messages/${message.creation}`, {
       data: message,
       headers: {
-        'Authorization': `Bearer ${oauth.access_token}`
+
       }
     })
     if (res.data.status === 'ok') setMessages(messages.filter(e => e.creation !== message.creation && e.channelId === message.channelId))
@@ -124,7 +140,7 @@ export default forwardRef(({
                   <span>{dayjs().calendar(message.creation)}</span>
 
                   { (message.author===oauth.name) ?
-                  <IconButton aria-label="delete" onClick={()=>onDelete(message)}>
+                  <IconButton aria-label="delete" onClick={()=> {onDelete(message);setState(true)}}>
                   <DeleteIcon />
                   </IconButton>
                   :

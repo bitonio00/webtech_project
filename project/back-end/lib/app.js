@@ -26,16 +26,22 @@ app.get('/channels', authenticate, async (req, res) => {
   res.json(channels)
 })
 
+
+
 app.post('/channels', async (req, res) => {
   const channel = await db.channels.create(req.body)
   res.status(201).json(channel)
 })
 
-app.delete('/channels/:id/messages', authenticate, async (req, res) => {
-  console.log("eee")
-  if (req.user.name !== req.body.author) res.status(401).send()
-  const result = await db.messages.delete(req.body)
-  res.status(201).json(result)
+app.delete('/channels/:id/messages/:creation', async (req, res) => {
+
+  try{
+    console.log("1")
+    await db.messages.delete(req.params.id, req.params.creation)
+  }
+  catch(err){
+    res.status(400).send("erreur suivante :"+err)
+  }
 })
 
 
