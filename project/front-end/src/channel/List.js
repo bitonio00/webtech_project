@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useTheme } from '@mui/styles';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditOffIcon from '@mui/icons-material/EditOff';
 //localhost
 import Context from '../Context'
 // Markdown
@@ -67,6 +68,7 @@ export default forwardRef(({
 
   const { oauth } = useContext(Context)
   const [state,setState]=useState(false)
+  const [stateEdit,setStateEdit]=useState(true)
   const styles = useStyles(useTheme())
    useEffect( () => {
     console.log("useEffect")
@@ -121,17 +123,25 @@ export default forwardRef(({
     if (res.data.status === 'ok') setMessages(messages.filter(e => e.creation !== message.creation && e.channelId === message.channelId))
     else alert('oups something went wrong')
   }
+  const onEdit =async (message)=>{
+
+  }
 
   return (
     <div css={styles.root} ref={rootEl}>
       <h1>Messages for {channel.name}</h1>
       <ul>
         { messages.map( (message, i) => {
-            const {value} = unified()
+
+
+            const {value} = stateEdit ? unified()
             .use(markdown)
             .use(remark2rehype)
             .use(html)
-            .processSync(message.content);
+            .processSync(message.content):
+            <span></span>
+
+
             return (
               <li key={i} css={styles.message}>
                 <p>
@@ -139,13 +149,26 @@ export default forwardRef(({
                   {' - '}
                   <span>{dayjs().calendar(message.creation)}</span>
 
-                  { (message.author===oauth.name) ?
-                  <IconButton aria-label="delete" onClick={()=> {onDelete(message);setState(true)}}>
-                  <DeleteIcon />
+
+                { (message.author===oauth.name) ?
+
+                  <IconButton aria-label="edit"  onClick={()=> {onEdit(message);setStateEdit(true)}} >
+                  <EditOffIcon />
                   </IconButton>
-                  :
-                  <span></span>
-                }
+
+                :
+                <span></span>
+              }
+              { (message.author===oauth.name) ?
+
+              <IconButton aria-label="delete" onClick={()=> {onDelete(message);setState(true)}}>
+              <DeleteIcon />
+              </IconButton>
+
+
+              :
+              <span></span>
+            }
                 </p>
                 <div dangerouslySetInnerHTML={{__html: value}}>
                 </div>
