@@ -60,10 +60,18 @@ module.exports = {
       return merge(message, {channelId: channelId, creation: creation})
     },
      delete: async (channelId, creation) => {
-       console.log("2")
+
        await db.del(`messages:${channelId}:${creation}`)
       return {sucess: true}
   },
+     update: async(content,channelId,creation)=>{
+       const editMessage=content
+       const data=await db.get(`messages:${channelId}:${creation}`)
+       console.log(data)
+       let message=JSON.parse(data)
+       message.content=editMessage
+       await db.put(`messages:${channelId}:${creation}`,JSON.stringify(message))
+     },
     list: async (channelId) => {
       return new Promise( (resolve, reject) => {
         const messages = []

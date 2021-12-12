@@ -33,16 +33,30 @@ app.post('/channels', async (req, res) => {
   res.status(201).json(channel)
 })
 
-app.delete('/channels/:id/messages/:creation', async (req, res) => {
+app.delete('/channels/:id/messages/:creation', authenticate, async (req, res) => {
 
   try{
-    console.log("1")
+
     await db.messages.delete(req.params.id, req.params.creation)
   }
   catch(err){
     res.status(400).send("erreur suivante :"+err)
   }
 })
+
+app.post('/channels/:id/messages/:creation/:content', async (req, res) => {
+
+  try{
+
+    await db.messages.update(req.params.content, req.params.id,req.params.creation)
+  }
+  catch(err){
+    res.status(400).send("erreur suivante :"+err)
+  }
+})
+
+
+
 
 
 app.get('/channels/:id', async (req, res) => {

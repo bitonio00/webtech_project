@@ -4,10 +4,13 @@ import {forwardRef, useImperativeHandle, useLayoutEffect, useRef, useContext, us
 import axios from 'axios';
 
 // Layout
+import { Button, outlinedInputClasses, TextField } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditOffIcon from '@mui/icons-material/EditOff';
+import SendIcon from '@mui/icons-material/Send'
+import Input from '@mui/material/Input';
 //localhost
 import Context from '../Context'
 // Markdown
@@ -68,7 +71,10 @@ export default forwardRef(({
 
   const { oauth } = useContext(Context)
   const [state,setState]=useState(false)
-  const [stateEdit,setStateEdit]=useState(true)
+  const [stateEdit,setStateEdit]=useState({showEdit : false , idMessage: null})
+  const [editContent,setEditContent]=useState('')
+  const[editedChannelId,setEditedChannelId]=useState('')
+  const[editedCreation,setEditedCreation]=useState('')
   const styles = useStyles(useTheme())
    useEffect( () => {
     console.log("useEffect")
@@ -84,8 +90,10 @@ export default forwardRef(({
 
     }
     fetch()
+    console.log("fetch")
    setState(false)
- },[state])
+
+ },[state,editContent])
   // Expose the `scroll` action
   useImperativeHandle(ref, () => ({
     scroll: scroll
@@ -117,13 +125,22 @@ export default forwardRef(({
       const res = await axios.delete(`http://localhost:3001/channels/${message.channelId}/messages/${message.creation}`, {
       data: message,
       headers: {
+          'Authorization': `Bearer ${oauth.access_token}`
 
       }
     })
     if (res.data.status === 'ok') setMessages(messages.filter(e => e.creation !== message.creation && e.channelId === message.channelId))
     else alert('oups something went wrong')
   }
-  const onEdit =async (message)=>{
+  const onEdit = async (e) => {
+    console.log(editedCreation)
+    e.preventDefault()
+    const res = await axios.post(`http://localhost:3001/channels/${editedChannelId}/messages/${editedCreation}/${editContent}`, {
+    headers: {
+
+    }
+  })
+
 
   }
 
@@ -134,12 +151,11 @@ export default forwardRef(({
         { messages.map( (message, i) => {
 
 
-            const {value} = stateEdit ? unified()
+            const {value} = unified()
             .use(markdown)
             .use(remark2rehype)
             .use(html)
-            .processSync(message.content):
-            <span></span>
+            .processSync(message.content)
 
 
             return (
@@ -152,10 +168,12 @@ export default forwardRef(({
 
                 { (message.author===oauth.name) ?
 
-                  <IconButton aria-label="edit"  onClick={()=> {onEdit(message);setStateEdit(true)}} >
+                  <IconButton aria-label="edit"  onClick={()=> {setStateEdit({showEdit:!stateEdit.showEdit,idMessage:i});
+                  setEditContent(message.content);
+                  setEditedCreation(message.creation);
+                  setEditedChannelId(message.channelId)}} >
                   <EditOffIcon />
                   </IconButton>
-
                 :
                 <span></span>
               }
@@ -164,15 +182,33 @@ export default forwardRef(({
               <IconButton aria-label="delete" onClick={()=> {onDelete(message);setState(true)}}>
               <DeleteIcon />
               </IconButton>
-
-
               :
               <span></span>
             }
                 </p>
                 <div dangerouslySetInnerHTML={{__html: value}}>
                 </div>
+
+                { (i===stateEdit.idMessage && stateEdit.showEdit===false) ?
+
+                  <form onSubmit={onEdit}>
+                    <Input
+                      id="outlined-multiline-flexible"
+                      label="Edit"
+                      type="text"
+                      multiline
+                      maxRows={4}
+                      value={editContent}
+                      onChange={(e)=>{setEditContent(e.target.value)}}
+                    />
+                  <button >edit</button>
+                  </form>
+                :
+                <span></span>
+                }
+
               </li>
+
             )
         })}
       </ul>
