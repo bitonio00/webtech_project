@@ -9,6 +9,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import Context from './Context'
 import {useNavigate} from 'react-router-dom'
 
+import { List } from '@mui/material';
+import { ListItem } from '@mui/material';
+import { ListItemIcon } from '@mui/material';
+import { ListItemText } from '@mui/material';
+
 const styles = {
   root: {
     '& a': {
@@ -24,7 +29,7 @@ export default function Channels() {
     channels, setChannels
   } = useContext(Context)
   const naviate = useNavigate();
-  useEffect( () => {
+  useEffect( () => {console.log('yo')
     const fetch = async () => {
       try{
         const {data: channels} = await axios.get('http://localhost:3001/channels', {
@@ -40,11 +45,15 @@ export default function Channels() {
     fetch()
   }, [oauth, setChannels])
   return (
+    <List>
     <ul css={styles.root}>
-      <li css={styles.channel}>
-        <Link to="/channels" component={RouterLink}>Welcome</Link>
-      </li>
+      <ListItem>
+       <li css={styles.channel}>
+         <Link to="/channels" component={RouterLink}>Welcome</Link>
+       </li>
+      </ListItem>
       { channels.map( (channel, i) => (
+        <ListItem>
         <li key={i} css={styles.channel}>
           <Link
             href={`/channels/${channel.id}`}
@@ -56,7 +65,8 @@ export default function Channels() {
             {channel.name}
           </Link>
         </li>
-      ))}
+      </ListItem>))}
     </ul>
+    </List>
   );
 }
