@@ -12,27 +12,21 @@ import { useTheme } from '@mui/styles';
 
 
 
-export default function FormChannel({
-  
+export default function FormUser({
+  channel
 }) {
-  const { oauth,
-    channels, setChannels
-  } = useContext(Context)
+  
   const [user,setUser]=useState('')
-  const channelObj = {
-    id : 1,
-    name: channel,
-    users: [oauth.name,user]
-  }
+  
   const onSubmit = async () => {
-     await axios.post(
-      `http://localhost:3001/channels`,channelObj
-   ).then(res => {
-    console.log(res)
-  })
-  setChannels([...channels, channelObj])
-  console.log(channels)
-  console.log(channelObj)
+    channel.users.push(user)
+    console.log(channel.users)
+    await axios.put(`http://localhost:3001/channels/${channel.id}`,{edited : channel}
+     ).then(res => {
+      console.log(res)
+    })
+    
+  
   }
   const handleChange = (e) => {
     setUser(e.target.value);
