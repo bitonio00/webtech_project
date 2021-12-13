@@ -32,9 +32,10 @@ export default function Channels() {
   useEffect( () => {console.log('yo')
     const fetch = async () => {
       try{
-        const {data: channels} = await axios.get('http://localhost:3001/channels', {
-          headers: {
-            'Authorization': `Bearer ${oauth.access_token}`
+        
+        const {data: channels} = await axios.get(`http://localhost:3001/channels/${oauth.name}`, {
+         headers: {
+            //'Authorization': `Bearer ${oauth.access_token}`
           }
         })
         setChannels(channels)
@@ -47,14 +48,14 @@ export default function Channels() {
   return (
     <List>
     <ul css={styles.root}>
-      <ListItem>
-       <li css={styles.channel}>
+      <ListItem css={styles.channel}>
+       
          <Link to="/channels" component={RouterLink}>Welcome</Link>
-       </li>
+       
       </ListItem>
       { channels.map( (channel, i) => (
-        <ListItem>
-        <li key={i} css={styles.channel}>
+       console.log(channel.users),
+        <ListItem key={i} css={styles.channel}>
           <Link
             href={`/channels/${channel.id}`}
             onClick={ (e) => {
@@ -64,8 +65,9 @@ export default function Channels() {
           >
             {channel.name}
           </Link>
-        </li>
-      </ListItem>))}
+        
+      </ListItem>
+      ))}
     </ul>
     </List>
   );

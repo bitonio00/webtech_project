@@ -15,16 +15,15 @@ import { useTheme } from '@mui/styles';
 export default function FormChannel({
   
 }) {
-  const {
+  const { oauth,
     channels, setChannels
   } = useContext(Context)
-  /*const addChannel = (channel) => {
-    setChannels([...channels, channel])
-  }*/
   const [channel, setChannel] =useState('')
+  const [user,setUser]=useState('')
   const channelObj = {
     id : 1,
-    name: channel
+    name: channel,
+    users: [oauth.name,user]
   }
   const onSubmit = async () => {
      await axios.post(
@@ -34,10 +33,13 @@ export default function FormChannel({
   })
   setChannels([...channels, channelObj])
   console.log(channels)
-  console.log(channel)
+  console.log(channelObj)
   }
   const handleChange = (e) => {
     setChannel(e.target.value);
+  };
+  const handleChangeUSer = (e) => {
+    setUser(e.target.value);
   };
   return (
     <form  onSubmit={onSubmit} noValidate>
@@ -48,6 +50,15 @@ export default function FormChannel({
         maxRows={4}
         value={channel}
         onChange={handleChange}
+        variant="outlined"
+      />
+      <TextField
+        id="user"
+        label="user_Name"
+        multiline
+        maxRows={4}
+        value={user}
+        onChange={handleChangeUSer}
         variant="outlined"
       />
       <div>

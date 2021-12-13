@@ -26,7 +26,25 @@ app.get('/channels', authenticate, async (req, res) => {
   res.json(channels)
 })
 
-
+app.get('/channels/:users',  async (req, res) => {
+  const channels = await db.channels.list()
+  let result=[]
+   for(let i=0; i<channels.length;i++)
+   {
+     if(channels[i].users != undefined)
+    {for( let l=0; l<channels[i].users.length;l++)
+     {
+       if(channels[i].users[l] === req.params.users) 
+       {
+        result.push(channels[i])
+       }
+     }}
+    
+   }
+console.log(result)
+  res.json(result)
+  
+})
 
 app.post('/channels', async (req, res) => {
   const channel = await db.channels.create(req.body)
