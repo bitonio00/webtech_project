@@ -146,7 +146,9 @@ export default forwardRef(({
 
   return (
     <div css={styles.root} ref={rootEl}>
-      <h1>Messages for {channel.name}</h1>
+      <div>
+       <h1>Messages for {channel.name}</h1>
+      </div>
       <ul>
         { messages.map( (message, i) => {
 

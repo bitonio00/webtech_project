@@ -51,10 +51,10 @@ app.post('/channels', async (req, res) => {
   res.status(201).json(channel)
 })
 
-app.delete('/channels/:id/messages/:creation', authenticate, async (req, res) => {
+app.delete('/channels/:id/messages/:creation', async (req, res) => {
 
   try{
-
+    console.log("1")
     await db.messages.delete(req.params.id, req.params.creation)
   }
   catch(err){
@@ -72,17 +72,16 @@ app.post('/channels/:id/messages/:creation/:content', async (req, res) => {
     res.status(400).send("erreur suivante :"+err)
   }
 })
-
-
-
-
-
 app.get('/channels/:id', async (req, res) => {
   const channel = await db.channels.get(req.params.id)
   res.json(channel)
 })
 
 app.put('/channels/:id', async (req, res) => {
+  const channel = await db.channels.update(req.body)
+  res.json(channel)
+})
+app.put('/channels/:users', async (req, res) => {
   const channel = await db.channels.update(req.body)
   res.json(channel)
 })
