@@ -13,6 +13,7 @@ import { ReactComponent as SettingsIcon } from './icons/settings.svg';
 import FormChannel from './FormChannel';
 import Channels from './Channels';
 import Context from './Context'
+import FormSettings from './FormSettings'
 
 
 const useStyles = (theme) => ({
@@ -31,6 +32,11 @@ const useStyles = (theme) => ({
     drawerVisible: {
       display: 'block',
     },
+    form :{
+        display :'flex',
+        justifyContent :'center',
+        alignItem :'center',
+    }
   })
 
 export default function Settings() {
@@ -58,8 +64,12 @@ export default function Settings() {
       >
         <Channels />
       </Drawer>
-        <h1>Settings</h1>
-        
+         <div>
+             <h1>Settings</h1>
+              <div >
+                  <FormSettings/> 
+              </div> 
+         </div>
     </div>
   );
 }
