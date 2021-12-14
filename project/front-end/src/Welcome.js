@@ -7,6 +7,8 @@ import { ReactComponent as ChannelIcon } from './icons/channel.svg';
 import { ReactComponent as FriendsIcon } from './icons/friends.svg';
 import { ReactComponent as SettingsIcon } from './icons/settings.svg';
 import FormChannel from './FormChannel';
+import {Link} from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = (theme) => ({
   root: {
@@ -51,10 +53,13 @@ export default function Welcome() {
         </Grid>
         <Grid item xs>
           <div css={styles.card}>
-            <SettingsIcon css={styles.icon} />
-            <Typography color="textPrimary">
-              Settings
-            </Typography>
+          <Link to ='/settings' component={RouterLink}>
+            
+             <SettingsIcon css={styles.icon} />
+               <Typography color="textPrimary">
+                 Settings
+              </Typography>
+           </Link>
           </div>
         </Grid>
       </Grid>
