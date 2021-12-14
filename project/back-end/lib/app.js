@@ -1,4 +1,3 @@
-
 const db = require('./db')
 const express = require('express')
 const cors = require('cors')
@@ -47,17 +46,31 @@ console.log(result)
 })
 
 app.post('/channels',authenticate, async (req, res) => {
-  console.log('yo')
-  console.log(req.body)
+
+const users=await db.users.list()
+  for(let i=0; i<req.body['channel'].users.length; i++)
+  {
+    if(!users.find(user=>user.username===req.body['channel'].users[i]))
+    {
+      console.log(req.body['channel'].users[i])
+      const user={
+        id:1,
+        username:req.body['channel'].users[i]
+      }
+      await db.users.create(user)
+    }
+  }
+  const users2=await db.users.list()
+  console.log("bdd2|||",users2)
   const channel = await db.channels.create(req.body['channel'])
   res.status(201).json(channel)
-  
+
 })
 app.post('/channels/init', async (req, res) => {
 
   const channel = await db.channels.create(req.body['channel'])
   res.status(201).json(channel)
-  
+
 })
 
 app.delete('/channels/:id/messages/:creation',authenticate, async (req, res) => {
