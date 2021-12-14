@@ -72,7 +72,7 @@ export default forwardRef(({
 
   const { oauth } = useContext(Context)
   const [state,setState]=useState(false)
-  const [stateEdit,setStateEdit]=useState({showEdit : false , idMessage: null})
+  const [stateEdit,setStateEdit]=useState({showEdit:false , idMessage: null})
   const [editContent,setEditContent]=useState('')
   const[editedChannelId,setEditedChannelId]=useState('')
   const[editedCreation,setEditedCreation]=useState('')
@@ -80,8 +80,6 @@ export default forwardRef(({
    useEffect( () => {
 
     const fetch = async () => {
-      console.log("fetch")
-      console.log(oauth.access_token)
         const {data: messages} = await axios.get(`http://localhost:3001/channels/${channel.id}/messages`,{
           headers: {
               'Authorization': `Bearer ${oauth.access_token}`
@@ -122,7 +120,6 @@ export default forwardRef(({
   })
 
    const  onDelete = async (message) => {
-     console.log("rrr")
       const res = await axios.delete(`http://localhost:3001/channels/${message.channelId}/messages/${message.creation}`,{
       headers: {
           'Authorization': `Bearer ${oauth.access_token}`
@@ -132,12 +129,10 @@ export default forwardRef(({
     else alert('oups something went wrong')
   }
   const onEdit = async (e) => {
-    const headers={
-      'Authorization': `Bearer ${oauth.access_token}`
-    }
-    console.log(editedCreation)
+
+    console.log(stateEdit.showEdit)
     e.preventDefault()
-    const res = await axios.put(`http://localhost:3001/channels/${editedChannelId}/messages/${editedCreation}/${editContent}`,{content:editContent}, {
+    const res = await axios.put(`http://localhost:3001/channels/${editedChannelId}/messages/${editedCreation}`,{content:editContent}, {
       headers:{
         'Authorization': `Bearer ${oauth.access_token}`
       }
@@ -148,10 +143,8 @@ export default forwardRef(({
 
   return (
     <div css={styles.root} ref={rootEl}>
-      <div>
-       <h1>Messages for {channel.name}</h1>
+      <h1>Messages for {channel.name}</h1>
        <FormUser channel={channel} />
-      </div>
       <ul>
         { messages.map( (message, i) => {
 

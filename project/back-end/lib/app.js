@@ -61,27 +61,28 @@ app.delete('/channels/:id/messages/:creation',authenticate, async (req, res) => 
   }
 })
 
-app.put('/channels/:id/messages/:creation/:content',async (req, res) => {
-console.log("put:",req)
+app.put('/channels/:id/messages/:creation',authenticate,async (req, res) => {
   try{
 
-    await db.messages.update(req.params.content, req.params.id,req.params.creation)
+    await db.messages.update(req.body.content, req.params.id,req.params.creation)
   }
   catch(err){
     res.status(400).send("erreur suivante :"+err)
   }
 })
-app.get('/channels/:id', async (req, res) => {
+app.get('/channels/:id', authenticate,async (req, res) => {
   const channel = await db.channels.get(req.params.id)
   res.json(channel)
 })
 
-app.put('/channels/:id', async (req, res) => {
-  const channel = await db.channels.update(req.params.id,req.body['edited'])
-  console.log(channel)
+app.put('/channels/:id',authenticate, async (req, res) => {
+  const channel = await db.channels.update(req.body)
   res.json(channel)
 })
-
+app.put('/channels/:users',authenticate, async (req, res) => {
+  const channel = await db.channels.update(req.body)
+  res.json(channel)
+})
 
 // Messages
 

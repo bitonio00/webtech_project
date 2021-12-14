@@ -17,11 +17,16 @@ export default function FormUser({
 }) {
 
   const [user,setUser]=useState('')
-
+  const {oauth}=useContext(Context)
   const onSubmit = async () => {
     channel.users.push(user)
     console.log(channel.users)
-    await axios.put(`http://localhost:3001/channels/${channel.id}`,{edited : channel}
+    await axios.put(`http://localhost:3001/channels/${channel.id}`,{edited : channel},
+      {
+      headers: {
+        'Authorization': `Bearer ${oauth.access_token}`
+      }
+    }
      ).then(res => {
       console.log(res)
     })
