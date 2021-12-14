@@ -22,6 +22,7 @@ import html from 'rehype-stringify'
 import dayjs from 'dayjs'
 import calendar from 'dayjs/plugin/calendar'
 import updateLocale from 'dayjs/plugin/updateLocale'
+import FormUser from '../FormUser';
 
 dayjs.extend(calendar)
 dayjs.extend(updateLocale)
@@ -147,7 +148,10 @@ export default forwardRef(({
 
   return (
     <div css={styles.root} ref={rootEl}>
-      <h1>Messages for {channel.name}</h1>
+      <div>
+       <h1>Messages for {channel.name}</h1>
+       <FormUser channel={channel} />
+      </div>
       <ul>
         { messages.map( (message, i) => {
 

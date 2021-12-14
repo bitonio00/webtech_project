@@ -9,9 +9,13 @@ module.exports = {
   channels: {
     create: async (channel) => {
       if(!channel.name) throw Error('Invalid channel')
-      const id = uuid()
-      await db.put(`channels:${id}`, JSON.stringify(channel))
-      return merge(channel, {id: id})
+      channel.id = uuid()
+      console.log(channel.id)
+      
+      await db.put(`channels:${channel.id}`, JSON.stringify(channel))
+      const data = await db.get(`channels:${channel.id}`)
+      console.log(data)
+      return merge(channel, {id: channel.id})
     },
     get: async (id) => {
       if(!id) throw Error('Invalid id')
@@ -36,10 +40,11 @@ module.exports = {
         })
       })
     },
-    update: (id, channel) => {
-      const original = store.channels[id]
-      if(!original) throw Error('Unregistered channel id')
-      store.channels[id] = merge(original, channel)
+    update: async(id, editedChannel) => {
+      console.log(id)
+      const data = await db.put(`channels:${id}`,JSON.stringify(editedChannel))
+      console.log(data)
+      
     },
     delete: (id, channel) => {
       const original = store.channels[id]
