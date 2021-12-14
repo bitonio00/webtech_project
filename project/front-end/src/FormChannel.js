@@ -53,11 +53,13 @@ export default function FormChannel({
   };
   const handleClose = () => {
     setOpen(false);
+    setChannel("")
+    setUser("")
   };
 
   const onSubmit = async () => {
      await axios.post(
-      `http://localhost:3001/channels`,{channelObj},
+      `http://localhost:3001/channels`,{channel:channelObj},
       {
       headers: {
         'Authorization': `Bearer ${oauth.access_token}`
@@ -66,10 +68,12 @@ export default function FormChannel({
    ).then(res => {
     console.log(res)
   })
-  handleClose()
+  
   setChannels([...channels, channelObj])
+  handleClose()
   console.log(channels)
   console.log(channelObj)
+  
 }
   const handleChange = (e) => {
     setChannel(e.target.value);

@@ -11,6 +11,7 @@ const config = {
   await db.admin.clear();
   await app.listen(config.port);
   await Promise.all([{
+    id : 1,
     name: 'Channel 1',
     messages: [{
       author: 'sergei',
@@ -89,6 +90,7 @@ const config = {
       `.replace(/^ {6}/gm,'').replace(/^ {6}/gm,''),
     }]
   },{
+    id : 1,
     name: 'Channel 2',
     messages: [{
       author: 'sergei',
@@ -104,6 +106,7 @@ const config = {
       `.replace(/^ {6}/gm,'')
     }]
   },{
+    id : 1,
     name: 'Channel 3',
     messages: [{
       author: 'sergei',
@@ -119,12 +122,9 @@ const config = {
       `.replace(/^ {6}/gm,'')
     }]
   }].map( async (channel) => {
-    const {data: {id}} = await axios.post(`http://localhost:${config.port}/channels`, {
-      name: channel.name
-    })
-    return Promise.all( channel.messages.map( async (message) => {
-      await axios.post(`http://localhost:${config.port}/channels/${id}/messages`, message)
-    }))
+    //const {data: {id}} = await axios.post(`http://localhost:${config.port}/channels/init`, { channel : channel})
+    //return Promise.all( channel.messages.map( async (message) => {
+      //await axios.post(`http://localhost:${config.port}/channels/${id}/messages`, message)  }))
   }))
   process.exit()
 })();

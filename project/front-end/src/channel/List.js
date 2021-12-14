@@ -23,6 +23,7 @@ import dayjs from 'dayjs'
 import calendar from 'dayjs/plugin/calendar'
 import updateLocale from 'dayjs/plugin/updateLocale'
 import FormUser from '../FormUser';
+import { display } from '@mui/system';
 
 dayjs.extend(calendar)
 dayjs.extend(updateLocale)
@@ -61,6 +62,7 @@ const useStyles = (theme) => ({
     top: 0,
     width: '50px',
   },
+ 
 })
 
 export default forwardRef(({
@@ -143,8 +145,10 @@ export default forwardRef(({
 
   return (
     <div css={styles.root} ref={rootEl}>
-      <h1>Messages for {channel.name}</h1>
-       <FormUser channel={channel} />
+      <div >
+         <h1>Messages for {channel.name}</h1>
+         <FormUser channel={channel} />
+      </div>
       <ul>
         { messages.map( (message, i) => {
 

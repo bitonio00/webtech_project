@@ -47,8 +47,17 @@ console.log(result)
 })
 
 app.post('/channels',authenticate, async (req, res) => {
-  const channel = await db.channels.create(req.body)
+  console.log('yo')
+  console.log(req.body)
+  const channel = await db.channels.create(req.body['channel'])
   res.status(201).json(channel)
+  
+})
+app.post('/channels/init', async (req, res) => {
+
+  const channel = await db.channels.create(req.body['channel'])
+  res.status(201).json(channel)
+  
 })
 
 app.delete('/channels/:id/messages/:creation',authenticate, async (req, res) => {
@@ -76,7 +85,9 @@ app.get('/channels/:id', authenticate,async (req, res) => {
 })
 
 app.put('/channels/:id',authenticate, async (req, res) => {
-  const channel = await db.channels.update(req.body)
+  console.log('BODY |||',req.body['edited'])
+  console.log('id ||||',req.params.id)
+  const channel = await db.channels.update(req.params.id,req.body['edited'])
   res.json(channel)
 })
 app.put('/channels/:users',authenticate, async (req, res) => {
