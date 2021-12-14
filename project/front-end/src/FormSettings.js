@@ -6,8 +6,15 @@ import Context from './Context';
 import { ReactComponent as ChannelIcon } from './icons/channel.svg';
 // Layout
 import { Button, outlinedInputClasses, TextField } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import { useTheme } from '@mui/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Language } from '@mui/icons-material';
 
 
 export default function FormChannel({
@@ -17,7 +24,39 @@ export default function FormChannel({
     
   } = useContext(Context)
  
-  
+  const [open, setOpen] = useState(false);
+  const [openLanguage, setOpenLanguage] = useState(false);
+  const [nationalitie,setNationalitie]=useState('');
+  const [language,setLanguage]=useState('');
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClickOpenLanguage = () => {
+    setOpenLanguage(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleCloseLanguage = () => {
+    setOpenLanguage(false);
+  };
+  const handleChange = (e) => {
+    setNationalitie(e.target.value);
+  };
+  const handleChangeLanguage = (e) => {
+    setLanguage(e.target.value);
+  };
+  const onSubmit = async () => {
+   
+    setNationalitie(nationalitie)
+    handleClose()
+    }
+ const onSubmitLanguage = async () => {
+   
+        setLanguage(language)
+        handleCloseLanguage()
+        }
   return (
             <div>
                 <tr>
@@ -42,15 +81,22 @@ export default function FormChannel({
                         nationalitie(s) :
                     </td>
                     <td>
-
+                        {nationalitie}
                     </td>
+                    <td>
+                     <Button variant="contained"  color="primary" endIcon={<EditIcon />} onClick={handleClickOpen}></Button>
+                    </td>
+
                 </tr>
                 <tr>
                     <td>
                         language spoken :
                     </td>
                     <td>
-
+                        {language}
+                    </td>
+                    <td>
+                      <Button variant="contained"  color="primary" endIcon={<EditIcon />}onClick={handleClickOpenLanguage}></Button>
                     </td>
                 </tr>
                 <tr>
@@ -61,6 +107,45 @@ export default function FormChannel({
 
                     </td>
                 </tr>
+         <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>nationalitie(s)</DialogTitle>
+          <DialogContent>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="nationalitie"
+              multiline
+              maxRows={4}
+              value={nationalitie}
+              onChange={handleChange}
+             variant="outlined"
+           />
+          
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button variant="contained"  color="primary" endIcon={<SendIcon />}onClick={onSubmit}>update nationalitie</Button>
+          </DialogActions>
+         </Dialog>
+
+         <Dialog open={openLanguage} onClose={handleCloseLanguage}>
+          <DialogTitle>nationalitie(s)</DialogTitle>
+          <DialogContent>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="nationalitie"
+              multiline
+              maxRows={4}
+              value={language}
+              onChange={handleChangeLanguage}
+             variant="outlined"
+           />
+          
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseLanguage}>Cancel</Button>
+            <Button variant="contained"  color="primary" endIcon={<SendIcon />}onClick={onSubmitLanguage}>update nationalitie</Button>
+          </DialogActions>
+         </Dialog>
             </div>
   )
 }
