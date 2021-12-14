@@ -28,7 +28,7 @@ export default function Channels() {
     oauth,
     channels, setChannels
   } = useContext(Context)
-  const naviate = useNavigate();
+  const navigate = useNavigate();
   useEffect( () => {console.log('yo')
     const fetch = async () => {
       try{
@@ -61,7 +61,7 @@ export default function Channels() {
             href={`/channels/${channel.id}`}
             onClick={ (e) => {
               e.preventDefault()
-              naviate(`/channels/${channel.id}`)
+              navigate(`/channels/${channel.id}`)
             }}
           >
             {channel.name}

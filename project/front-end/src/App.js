@@ -8,6 +8,7 @@ import Header from './Header'
 import Main from './Main'
 import Login from './Login'
 import Context from './Context'
+import Settings from './Settings'
 // Rooter
 import {
   Route,
@@ -52,6 +53,7 @@ export default function App() {
         <Route exact path="/" element={oauth ? (gochannels) : (<Login />)}/>
         <Route path="/channels/*" element={oauth ? (<Main />) : (gohome)}/>
         <Route path="/Oups" element={<Oups />} />
+        <Route path="/settings" element={oauth ? (<Settings />): (gohome)} />
       </Routes>
       <Footer />
     </div>
