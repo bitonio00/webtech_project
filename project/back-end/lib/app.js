@@ -90,6 +90,7 @@ app.put('/channels/:id',authenticate, async (req, res) => {
   const channel = await db.channels.update(req.params.id,req.body['edited'])
   res.json(channel)
   console.log('to')
+  //tryy
 })
 
 
