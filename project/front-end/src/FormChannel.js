@@ -34,7 +34,7 @@ const useStyles = (theme) => ({
 
 
 export default function FormChannel({
-  
+
 }) {
   const { oauth,
     channels, setChannels
@@ -57,7 +57,12 @@ export default function FormChannel({
 
   const onSubmit = async () => {
      await axios.post(
-      `http://localhost:3001/channels`,channelObj
+      `http://localhost:3001/channels`,{channelObj},
+      {
+      headers: {
+        'Authorization': `Bearer ${oauth.access_token}`
+      }
+    }
    ).then(res => {
     console.log(res)
   })

@@ -15,18 +15,23 @@ import { useTheme } from '@mui/styles';
 export default function FormUser({
   channel
 }) {
-  
+
   const [user,setUser]=useState('')
-  
+  const {oauth}=useContext(Context)
   const onSubmit = async () => {
     channel.users.push(user)
     console.log(channel.users)
-    await axios.put(`http://localhost:3001/channels/${channel.id}`,{edited : channel}
+    await axios.put(`http://localhost:3001/channels/${channel.id}`,{edited : channel},
+      {
+      headers: {
+        'Authorization': `Bearer ${oauth.access_token}`
+      }
+    }
      ).then(res => {
       console.log(res)
     })
-    
-  
+
+
   }
   const handleChange = (e) => {
     setUser(e.target.value);
@@ -42,7 +47,7 @@ export default function FormUser({
         onChange={handleChange}
         variant="outlined"
       />
-     
+
       <div>
         <Button
           variant="contained"

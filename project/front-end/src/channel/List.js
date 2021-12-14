@@ -72,27 +72,24 @@ export default forwardRef(({
 
   const { oauth } = useContext(Context)
   const [state,setState]=useState(false)
-  const [stateEdit,setStateEdit]=useState({showEdit : false , idMessage: null})
+  const [stateEdit,setStateEdit]=useState({showEdit:false , idMessage: null})
   const [editContent,setEditContent]=useState('')
   const[editedChannelId,setEditedChannelId]=useState('')
   const[editedCreation,setEditedCreation]=useState('')
   const styles = useStyles(useTheme())
    useEffect( () => {
-    console.log("useEffect")
+
     const fetch = async () => {
-
-        const {data: messages} = await axios.get(`http://localhost:3001/channels/${channel.id}/messages`, {
+        const {data: messages} = await axios.get(`http://localhost:3001/channels/${channel.id}/messages`,{
           headers: {
-
+              'Authorization': `Bearer ${oauth.access_token}`
           }
         })
         setMessages(messages)
-
-
     }
     fetch()
-    console.log("fetch")
-   setState(false)
+    setState(false)
+
 
  },[state,editContent])
   // Expose the `scroll` action
@@ -123,23 +120,22 @@ export default forwardRef(({
   })
 
    const  onDelete = async (message) => {
-      const res = await axios.delete(`http://localhost:3001/channels/${message.channelId}/messages/${message.creation}`, {
-      data: message,
+      const res = await axios.delete(`http://localhost:3001/channels/${message.channelId}/messages/${message.creation}`,{
       headers: {
           'Authorization': `Bearer ${oauth.access_token}`
-
       }
     })
     if (res.data.status === 'ok') setMessages(messages.filter(e => e.creation !== message.creation && e.channelId === message.channelId))
     else alert('oups something went wrong')
   }
   const onEdit = async (e) => {
-    console.log(editedCreation)
-    e.preventDefault()
-    const res = await axios.post(`http://localhost:3001/channels/${editedChannelId}/messages/${editedCreation}/${editContent}`, {
-    headers: {
 
-    }
+    console.log(stateEdit.showEdit)
+    e.preventDefault()
+    const res = await axios.put(`http://localhost:3001/channels/${editedChannelId}/messages/${editedCreation}`,{content:editContent}, {
+      headers:{
+        'Authorization': `Bearer ${oauth.access_token}`
+      }
   })
 
 
@@ -147,10 +143,8 @@ export default forwardRef(({
 
   return (
     <div css={styles.root} ref={rootEl}>
-      <div>
-       <h1>Messages for {channel.name}</h1>
+      <h1>Messages for {channel.name}</h1>
        <FormUser channel={channel} />
-      </div>
       <ul>
         { messages.map( (message, i) => {
 

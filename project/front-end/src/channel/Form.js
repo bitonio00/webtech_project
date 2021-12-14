@@ -46,7 +46,11 @@ export default function Form({
     , {
       content: content,
       author: oauth.name,
-    })
+    },{
+    headers: {
+      'Authorization': `Bearer ${oauth.access_token}`
+    }
+  })
     addMessage(message)
     setContent('')
   }
