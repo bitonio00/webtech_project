@@ -35,7 +35,8 @@ export default function Channels() {
 
         const {data: channels} = await axios.get(`http://localhost:3001/channels/${oauth.name}`, {
          headers: {
-            'Authorization': `Bearer ${oauth.access_token}`
+            'Authorization': `Bearer ${oauth.access_token}`,
+            'Email':oauth.email
           }
         })
         setChannels(channels)

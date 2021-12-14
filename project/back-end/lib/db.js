@@ -11,7 +11,7 @@ module.exports = {
       if(!channel.name) throw Error('Invalid channel')
       channel.id = uuid()
       console.log(channel.id)
-      
+
       await db.put(`channels:${channel.id}`, JSON.stringify(channel))
       const data = await db.get(`channels:${channel.id}`)
       //console.log('channel |||||',channel)
@@ -41,11 +41,8 @@ module.exports = {
       })
     },
     update: async(id, editedChannel) => {
-      console.log("DBaeaea",editedChannel)
-      console.log(id)
       const data = await db.put(`channels:${id}`,JSON.stringify(editedChannel))
-      console.log(data)
-      
+
     },
     delete: (id, channel) => {
       const original = store.channels[id]

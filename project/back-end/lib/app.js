@@ -27,41 +27,14 @@ app.get('/channels', authenticate, async (req, res) => {
 
 app.get('/channels/:users',authenticate,  async (req, res) => {
   const channels = await db.channels.list()
-  let result=[]
-   for(let i=0; i<channels.length;i++)
-   {
-     if(channels[i].users != undefined)
-    {for( let l=0; l<channels[i].users.length;l++)
-     {
-       if(channels[i].users[l] === req.params.users)
-       {
-        result.push(channels[i])
-       }
-     }}
-
-   }
-console.log(result)
+  const  result=myChannels(channels,req.params.users)
+  await isUser(req.params.users,req.headers['email'])
   res.json(result)
 
 })
 
 app.post('/channels',authenticate, async (req, res) => {
 
-const users=await db.users.list()
-  for(let i=0; i<req.body['channel'].users.length; i++)
-  {
-    if(!users.find(user=>user.username===req.body['channel'].users[i]))
-    {
-      console.log(req.body['channel'].users[i])
-      const user={
-        id:1,
-        username:req.body['channel'].users[i]
-      }
-      await db.users.create(user)
-    }
-  }
-  const users2=await db.users.list()
-  console.log("bdd2|||",users2)
   const channel = await db.channels.create(req.body['channel'])
   res.status(201).json(channel)
 
@@ -98,12 +71,10 @@ app.get('/channels/:id', authenticate,async (req, res) => {
 })
 
 app.put('/channels/:id',authenticate, async (req, res) => {
-  console.log('BODY |||',req.body['edited'])
-  console.log('id ||||',req.params.id)
+
+  await isUser(req.body['edited'].users)
   const channel = await db.channels.update(req.params.id,req.body['edited'])
   res.json(channel)
-  console.log('to')
-  //tryy
 })
 
 
@@ -131,10 +102,8 @@ app.get('/users',authenticate, async (req, res) => {
   res.json(users)
 })
 
-app.post('/users',authenticate, async (req, res) => {
-  const user = await db.users.create(req.body)
-  res.status(201).json(user)
-})
+app.post('/users',  isUser)
+
 
 app.get('/users/:id',authenticate, async (req, res) => {
   const user = await db.users.get(req.params.id)
@@ -145,5 +114,38 @@ app.put('/users/:id',authenticate, async (req, res) => {
   const user = await db.users.update(req.body)
   res.json(user)
 })
+
+async function isUser(username,email)
+{
+  console.log("username:",username)
+  console.log("email:",email)
+ const bddUsers=await db.users.list()
+   if(!bddUsers.find(user=>user.username===username))
+   {
+     const user={
+       id:1,
+       username:username,
+       email:email
+     }
+     await db.users.create(user)
+   }
+}
+
+ function  myChannels(channels,user)
+{
+  let result=[]
+   for(let i=0; i<channels.length;i++)
+   {
+     if(channels[i].users != undefined)
+    {for( let l=0; l<channels[i].users.length;l++)
+     {
+       if(channels[i].users[l] ===user)
+       {
+        result.push(channels[i])
+       }
+     }}
+   }
+   return result
+}
 
 module.exports = app
