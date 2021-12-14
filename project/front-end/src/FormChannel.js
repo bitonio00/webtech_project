@@ -68,8 +68,13 @@ export default function FormChannel({
    ).then(res => {
     console.log(res)
   })
-  
-  setChannels([...channels, channelObj])
+  const {data: channels} = await axios.get(`http://localhost:3001/channels/${oauth.name}`, {
+    headers: {
+       'Authorization': `Bearer ${oauth.access_token}`
+     }
+   })
+   
+   setChannels(channels)
   handleClose()
   console.log(channels)
   console.log(channelObj)
