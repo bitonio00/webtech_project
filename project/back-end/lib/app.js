@@ -89,11 +89,9 @@ app.put('/channels/:id',authenticate, async (req, res) => {
   console.log('id ||||',req.params.id)
   const channel = await db.channels.update(req.params.id,req.body['edited'])
   res.json(channel)
+  console.log('to')
 })
-app.put('/channels/:users',authenticate, async (req, res) => {
-  const channel = await db.channels.update(req.body)
-  res.json(channel)
-})
+
 
 // Messages
 
