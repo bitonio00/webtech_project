@@ -62,7 +62,7 @@ const useStyles = (theme) => ({
     top: 0,
     width: '50px',
   },
- 
+
 })
 
 export default forwardRef(({
@@ -74,8 +74,10 @@ export default forwardRef(({
 
   const { oauth } = useContext(Context)
   const [state,setState]=useState(false)
-  const [stateEdit,setStateEdit]=useState({showEdit:false , idMessage: null})
+  // const [stateEdit,setStateEdit]=useState({showEdit:false} , {idMessage: null})
   const [editContent,setEditContent]=useState('')
+  const [showEdit,setShowEdit]=useState(false)
+  const [idEditedMessage,setIdEditedChannelId]=useState(null)
   const[editedChannelId,setEditedChannelId]=useState('')
   const[editedCreation,setEditedCreation]=useState('')
   const styles = useStyles(useTheme())
@@ -130,10 +132,10 @@ export default forwardRef(({
     if (res.data.status === 'ok') setMessages(messages.filter(e => e.creation !== message.creation && e.channelId === message.channelId))
     else alert('oups something went wrong')
   }
-  const onEdit = async (e) => {
+  const onEdit = async () => {
 
-    console.log(stateEdit.showEdit)
-    e.preventDefault()
+     console.log(editContent)
+    // e.preventDefault()
     const res = await axios.put(`http://localhost:3001/channels/${editedChannelId}/messages/${editedCreation}`,{content:editContent}, {
       headers:{
         'Authorization': `Bearer ${oauth.access_token}`
@@ -170,7 +172,7 @@ export default forwardRef(({
 
                 { (message.author===oauth.name) ?
 
-                  <IconButton aria-label="edit"  onClick={()=> {setStateEdit({showEdit:!stateEdit.showEdit,idMessage:i});
+                  <IconButton aria-label="edit"  onClick={()=> {setShowEdit(false);setIdEditedChannelId(i);
                   setEditContent(message.content);
                   setEditedCreation(message.creation);
                   setEditedChannelId(message.channelId)}} >
@@ -191,9 +193,9 @@ export default forwardRef(({
                 <div dangerouslySetInnerHTML={{__html: value}}>
                 </div>
 
-                { (i===stateEdit.idMessage && stateEdit.showEdit===false) ?
+                { (i===idEditedMessage && showEdit===false) ?
 
-                  <form onSubmit={onEdit}>
+                  <form onSubmit={(e)=>{onEdit();setShowEdit(false);e.preventDefault()}}>
                     <Input
                       id="outlined-multiline-flexible"
                       label="Edit"
@@ -203,7 +205,7 @@ export default forwardRef(({
                       value={editContent}
                       onChange={(e)=>{setEditContent(e.target.value)}}
                     />
-                  <button >edit</button>
+                  <button>edit</button>
                   </form>
                 :
                 <span></span>
