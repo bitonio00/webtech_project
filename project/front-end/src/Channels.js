@@ -32,7 +32,7 @@ export default function Channels() {
   useEffect( () => {console.log('yo')
     const fetch = async () => {
       try{
-
+          console.log('fetch:channels')
         const {data: channels} = await axios.get(`http://localhost:3001/channels/${oauth.name}`, {
          headers: {
             'Authorization': `Bearer ${oauth.access_token}`
