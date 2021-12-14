@@ -18,7 +18,7 @@ const styles = {
   root: {
     '& a': {
       padding: '.2rem .5rem',
-      whiteSpace: 'nowrap', 
+      whiteSpace: 'nowrap',
     }
   },
 }
@@ -32,10 +32,10 @@ export default function Channels() {
   useEffect( () => {console.log('yo')
     const fetch = async () => {
       try{
-        
+
         const {data: channels} = await axios.get(`http://localhost:3001/channels/${oauth.name}`, {
          headers: {
-            //'Authorization': `Bearer ${oauth.access_token}`
+            'Authorization': `Bearer ${oauth.access_token}`
           }
         })
         setChannels(channels)
@@ -49,9 +49,9 @@ export default function Channels() {
     <List>
     <ul css={styles.root}>
       <ListItem css={styles.channel}>
-       
+
          <Link to="/channels" component={RouterLink}>Welcome</Link>
-       
+
       </ListItem>
       { channels.map( (channel, i) => (
        console.log(channel.users),
@@ -65,7 +65,7 @@ export default function Channels() {
           >
             {channel.name}
           </Link>
-        
+
       </ListItem>
       ))}
     </ul>

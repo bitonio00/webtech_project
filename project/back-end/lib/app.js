@@ -26,7 +26,7 @@ app.get('/channels', authenticate, async (req, res) => {
   res.json(channels)
 })
 
-app.get('/channels/:users',  async (req, res) => {
+app.get('/channels/:users',authenticate,  async (req, res) => {
   const channels = await db.channels.list()
   let result=[]
    for(let i=0; i<channels.length;i++)
@@ -34,25 +34,24 @@ app.get('/channels/:users',  async (req, res) => {
      if(channels[i].users != undefined)
     {for( let l=0; l<channels[i].users.length;l++)
      {
-       if(channels[i].users[l] === req.params.users) 
+       if(channels[i].users[l] === req.params.users)
        {
         result.push(channels[i])
        }
      }}
-    
+
    }
 console.log(result)
   res.json(result)
-  
+
 })
 
-app.post('/channels', async (req, res) => {
+app.post('/channels',authenticate, async (req, res) => {
   const channel = await db.channels.create(req.body)
   res.status(201).json(channel)
 })
 
-app.delete('/channels/:id/messages/:creation', async (req, res) => {
-
+app.delete('/channels/:id/messages/:creation',authenticate, async (req, res) => {
   try{
     console.log("1")
     await db.messages.delete(req.params.id, req.params.creation)
@@ -62,8 +61,8 @@ app.delete('/channels/:id/messages/:creation', async (req, res) => {
   }
 })
 
-app.post('/channels/:id/messages/:creation/:content', async (req, res) => {
-
+app.put('/channels/:id/messages/:creation/:content',async (req, res) => {
+console.log("put:",req)
   try{
 
     await db.messages.update(req.params.content, req.params.id,req.params.creation)
@@ -77,18 +76,18 @@ app.get('/channels/:id', async (req, res) => {
   res.json(channel)
 })
 
-app.put('/channels/:id', async (req, res) => {
+app.put('/channels/:id',authenticate, async (req, res) => {
   const channel = await db.channels.update(req.body)
   res.json(channel)
 })
-app.put('/channels/:users', async (req, res) => {
+app.put('/channels/:users',authenticate, async (req, res) => {
   const channel = await db.channels.update(req.body)
   res.json(channel)
 })
 
 // Messages
 
-app.get('/channels/:id/messages', async (req, res) => {
+app.get('/channels/:id/messages',authenticate, async (req, res) => {
   try{
     const channel = await db.channels.get(req.params.id)
   }catch(err){
@@ -98,29 +97,29 @@ app.get('/channels/:id/messages', async (req, res) => {
   res.json(messages)
 })
 
-app.post('/channels/:id/messages', async (req, res) => {
+app.post('/channels/:id/messages',authenticate, async (req, res) => {
   const message = await db.messages.create(req.params.id, req.body)
   res.status(201).json(message)
 })
 
 // Users
 
-app.get('/users', async (req, res) => {
+app.get('/users',authenticate, async (req, res) => {
   const users = await db.users.list()
   res.json(users)
 })
 
-app.post('/users', async (req, res) => {
+app.post('/users',authenticate, async (req, res) => {
   const user = await db.users.create(req.body)
   res.status(201).json(user)
 })
 
-app.get('/users/:id', async (req, res) => {
+app.get('/users/:id',authenticate, async (req, res) => {
   const user = await db.users.get(req.params.id)
   res.json(user)
 })
 
-app.put('/users/:id', async (req, res) => {
+app.put('/users/:id',authenticate, async (req, res) => {
   const user = await db.users.update(req.body)
   res.json(user)
 })

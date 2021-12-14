@@ -13,7 +13,7 @@ import { useTheme } from '@mui/styles';
 
 
 export default function FormChannel({
-  
+
 }) {
   const { oauth,
     channels, setChannels
@@ -48,7 +48,7 @@ export default function FormChannel({
         onChange={handleChange}
         variant="outlined"
       />
-     
+
       <div>
         <Button
           variant="contained"
