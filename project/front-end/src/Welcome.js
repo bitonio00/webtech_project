@@ -37,10 +37,7 @@ export default function Welcome() {
       >
         <Grid item xs>
           <div css={styles.card}>
-            <ChannelIcon css={styles.icon} />
-            <Typography color="textPrimary">
-              Create channels
-            </Typography>
+          
             <FormChannel />
           </div>
         </Grid>
