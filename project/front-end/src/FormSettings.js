@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios';
 import { useContext,useEffect } from 'react';
+import { useDropzone } from "react-dropzone"
 //local
 import Context from './Context';
 import { ReactComponent as ChannelIcon } from './icons/channel.svg';
@@ -14,6 +15,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Link as RouterLink } from 'react-router-dom';
+import UploadIcon from '@mui/icons-material/Upload';
+import IconButton from '@mui/material/IconButton';
+import CheckIcon from '@mui/icons-material/Check';
 
 import Gravatar from 'react-gravatar'
 
@@ -25,13 +30,17 @@ export default function FormChannel({
 
   } = useContext(Context)
 
+
   const [open, setOpen] = useState(false);
   const [openLanguage, setOpenLanguage] = useState(false);
   const [nationalitie,setNationalitie]=useState('');
   const [language,setLanguage]=useState('');
   const [state,setState]=useState(false)
-  const [user,setUser]=useState({username:'',email:'',nationalitie:'',language:''})
-  
+  const [files, setFiles] = useState([])
+  const [validate,setValidate]=useState(false)
+
+
+
 
   useEffect( () => {
 console.log("fetch----------------")
@@ -57,6 +66,29 @@ console.log("fetch----------------")
    fetch()
    setState(false)
 },[state])
+
+const { getRootProps, getInputProps } = useDropzone({multiple:false,
+    accept: "image/*",
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      )
+    },
+  })
+
+  const images = files.map((file) => (
+    <div key={file.name}>
+      <div>
+        <img src={file.preview} style={{ width: "200px" }} alt="preview" />
+      </div>
+    </div>
+  ))
+
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -84,8 +116,8 @@ console.log("fetch----------------")
       nationalitie :nationalitie,
       language :language
     }
-     
-    
+
+
      console.log('UPDATE NATION',userObj)
   const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
     headers: {
@@ -99,7 +131,7 @@ console.log("fetch----------------")
   else {
     alert('oups something went wrong')
   }
-   
+
     handleClose()
     }
  const onSubmitLanguage = async () => {
@@ -111,8 +143,7 @@ console.log("fetch----------------")
           nationalitie :nationalitie,
           language :language
         }
-         
-        
+
          console.log('UPDATE LANG',userObj)
       const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
         headers: {
@@ -128,6 +159,33 @@ console.log("fetch----------------")
       }
         handleCloseLanguage()
         }
+
+
+ const onUpload=async ()=>
+ {
+   const userObj ={
+     username : oauth.name,
+     email: oauth.email,
+     nationalitie :nationalitie,
+     language :language,
+     avatar:files
+   }
+
+   console.log('UPDATE image',userObj)
+const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
+  headers: {
+      'Authorization': `Bearer ${oauth.access_token}`
+  }
+    })
+    if(res.data.status)
+    {
+        setState(true)
+    }
+    else {
+      alert('oups something went wrong')
+    }
+
+ }
   return (
             <div>
               <table>
@@ -180,8 +238,33 @@ console.log("fetch----------------")
                     <Gravatar email={oauth.email} />
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        upload your avatar :
+                    </td>
+                    <td>
+                    <div>
+                    <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <IconButton >
+                    <UploadIcon fontSize="large" />
+                    </IconButton>
+                    </div>
+                    <div>{images}</div>
+                    { files.length  ?
+                    <IconButton onClick={onUpload}>
+                      <CheckIcon color="success" fontSize="large" />
+                    </IconButton>
+                    :
+                    <span></span>
+                  }
+                    </div>
+                    </td>
+                </tr>
+
                 </tbody>
                 </table>
+
          <Dialog open={open} onClose={handleClose}>
           <DialogTitle>nationalitie(s)</DialogTitle>
           <DialogContent>
