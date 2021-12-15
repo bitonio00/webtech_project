@@ -81,21 +81,33 @@ export default forwardRef(({
   const[editedChannelId,setEditedChannelId]=useState('')
   const[editedCreation,setEditedCreation]=useState('')
   const styles = useStyles(useTheme())
+
    useEffect( () => {
 
     const fetch = async () => {
+      try{
         const {data: messages} = await axios.get(`http://localhost:3001/channels/${channel.id}/messages`,{
           headers: {
               'Authorization': `Bearer ${oauth.access_token}`
           }
         })
+        console.log(messages)
         setMessages(messages)
+      }catch(err){
+        console.error(err)
+        console.log('errpr')
+      }
+
+
+
     }
     fetch()
     setState(false)
+    console.log("fetch1:",state)
 
 
- },[state,editContent])
+
+ },[state])
   // Expose the `scroll` action
   useImperativeHandle(ref, () => ({
     scroll: scroll
@@ -124,13 +136,21 @@ export default forwardRef(({
   })
 
    const  onDelete = async (message) => {
-      const res = await axios.delete(`http://localhost:3001/channels/${message.channelId}/messages/${message.creation}`,{
+     console.log("onDelete:")
+
+       const res=await axios.delete(`http://localhost:3001/channels/${message.channelId}/messages/${message.creation}`,{
       headers: {
           'Authorization': `Bearer ${oauth.access_token}`
       }
     })
-    if (res.data.status === 'ok') setMessages(messages.filter(e => e.creation !== message.creation && e.channelId === message.channelId))
-    else alert('oups something went wrong')
+    if(res.data.status)
+    {
+      setState(true)
+    }
+    else {
+      alert('oups something went wrong')
+    }
+
   }
   const onEdit = async () => {
 
@@ -141,7 +161,13 @@ export default forwardRef(({
         'Authorization': `Bearer ${oauth.access_token}`
       }
   })
-
+  if(res.data.status)
+  {
+    setState(true)
+  }
+  else {
+    alert('oups something went wrong')
+  }
 
   }
 
@@ -172,7 +198,7 @@ export default forwardRef(({
 
                 { (message.author===oauth.name) ?
 
-                  <IconButton aria-label="edit"  onClick={()=> {setShowEdit(false);setIdEditedChannelId(i);
+                  <IconButton aria-label="edit"  onClick={()=> {setShowEdit(true);setIdEditedChannelId(i);
                   setEditContent(message.content);
                   setEditedCreation(message.creation);
                   setEditedChannelId(message.channelId)}} >
@@ -183,7 +209,7 @@ export default forwardRef(({
               }
               { (message.author===oauth.name) ?
 
-              <IconButton aria-label="delete" onClick={()=> {onDelete(message);setState(true)}}>
+              <IconButton aria-label="delete" onClick={()=> {onDelete(message)}}>
               <DeleteIcon />
               </IconButton>
               :
@@ -193,7 +219,7 @@ export default forwardRef(({
                 <div dangerouslySetInnerHTML={{__html: value}}>
                 </div>
 
-                { (i===idEditedMessage && showEdit===false) ?
+                { (i===idEditedMessage && showEdit===true) ?
 
                   <form onSubmit={(e)=>{onEdit();setShowEdit(false);e.preventDefault()}}>
                     <Input

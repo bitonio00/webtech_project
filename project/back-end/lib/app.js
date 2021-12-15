@@ -48,21 +48,26 @@ app.post('/channels/init', async (req, res) => {
 
 app.delete('/channels/:id/messages/:creation',authenticate, async (req, res) => {
   try{
-    console.log("1")
+
     await db.messages.delete(req.params.id, req.params.creation)
+     res.status(200).json({ "status": true, "result": 'Edit successful!' })
   }
   catch(err){
-    res.status(400).send("erreur suivante :"+err)
+    res.status(400).send({"status":false,"erreur suivante":err})
   }
+  const messages=await db.messages.list()
+  console.log("delete",messages)
 })
 
 app.put('/channels/:id/messages/:creation',authenticate,async (req, res) => {
   try{
 
     await db.messages.update(req.body.content, req.params.id,req.params.creation)
+    res.status(200).json({ "status": true, "result": 'Edit successful!' })
   }
   catch(err){
-    res.status(400).send("erreur suivante :"+err)
+    console.log("errr")
+    res.status(400).send({"status":false,"erreur suivante ":err})
   }
 })
 app.get('/channels/:id', authenticate,async (req, res) => {
@@ -73,21 +78,30 @@ app.get('/channels/:id', authenticate,async (req, res) => {
 app.put('/channels/:id',authenticate, async (req, res) => {
 
   await isUser(req.body['edited'].users)
+  try{
   const channel = await db.channels.update(req.params.id,req.body['edited'])
-  res.json(channel)
+  res.status(200).json({ "status": true, "result": 'Edit successful!' })
+}catch(err){
+  res.status(400).send({"status":false,"erreur suivante":err})
+}
+
 })
 
 
 // Messages
 
 app.get('/channels/:id/messages',authenticate, async (req, res) => {
+
   try{
+
     const channel = await db.channels.get(req.params.id)
   }catch(err){
     return res.status(404).send('Channel does not exist.')
   }
+
   const messages = await db.messages.list(req.params.id)
   res.json(messages)
+
 })
 
 app.post('/channels/:id/messages',authenticate, async (req, res) => {
@@ -117,8 +131,7 @@ app.put('/users/:id',authenticate, async (req, res) => {
 
 async function isUser(username,email)
 {
-  console.log("username:",username)
-  console.log("email:",email)
+
  const bddUsers=await db.users.list()
    if(!bddUsers.find(user=>user.username===username))
    {
