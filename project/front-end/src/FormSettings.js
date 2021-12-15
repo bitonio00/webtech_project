@@ -15,7 +15,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import Pic1 from './avatar/avatar_zoro.jpg'
+import Pic2 from './avatar/avatar_urss.png'
 import Gravatar from 'react-gravatar'
+import { Avatar } from '@mui/material';
 
 
 export default function FormChannel({
@@ -27,10 +30,14 @@ export default function FormChannel({
 
   const [open, setOpen] = useState(false);
   const [openLanguage, setOpenLanguage] = useState(false);
+  const [openAvatar, setOpenAvatar] = useState(false);
   const [nationalitie,setNationalitie]=useState('');
   const [language,setLanguage]=useState('');
+  const [avatar,setAvatar]=useState('');
   const [state,setState]=useState(false)
   const [user,setUser]=useState({username:'',email:'',nationalitie:'',language:''})
+  const [imageArray,setImageArray]=useState([Pic1,Pic2])
+
   
 
   useEffect( () => {
@@ -48,6 +55,7 @@ console.log("fetch----------------")
 
        setNationalitie(user.nationalitie)
        setLanguage(user.language)
+       setAvatar(user.avatar)
        console.log(user)
      }catch(err){
        console.error(err)
@@ -64,11 +72,17 @@ console.log("fetch----------------")
   const handleClickOpenLanguage = () => {
     setOpenLanguage(true);
   };
+  const handleClickOpenAvatar = () => {
+    setOpenAvatar(true);
+  };
   const handleClose = () => {
     setOpen(false);
   };
   const handleCloseLanguage = () => {
     setOpenLanguage(false);
+  };
+  const handleCloseAvatar = () => {
+    setOpenAvatar(false);
   };
   const handleChange = (e) => {
     setNationalitie(e.target.value);
@@ -76,13 +90,21 @@ console.log("fetch----------------")
   const handleChangeLanguage = (e) => {
     setLanguage(e.target.value);
   };
+  const handleChangeAvatar = (image) => {
+    console.log('click image')
+    setAvatar(image);
+    console.log(avatar)
+  };
+  
   const onSubmit = async () => {
     setNationalitie(nationalitie)
     const userObj ={
       username : oauth.name,
       email: oauth.email,
       nationalitie :nationalitie,
-      language :language
+      language :language,
+      avatar : avatar,
+
     }
      
     
@@ -109,7 +131,8 @@ console.log("fetch----------------")
           username : oauth.name,
           email: oauth.email,
           nationalitie :nationalitie,
-          language :language
+          language :language,
+          avatar: avatar,
         }
          
         
@@ -128,6 +151,32 @@ console.log("fetch----------------")
       }
         handleCloseLanguage()
         }
+        const onSubmitAvatar = async () => {
+
+          const userObj ={
+            username : oauth.name,
+            email: oauth.email,
+            nationalitie :nationalitie,
+            language :language,
+            avatar: avatar,
+          }
+           
+          
+           console.log('UPDATE Avatar',userObj)
+        const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
+          headers: {
+              'Authorization': `Bearer ${oauth.access_token}`
+          }
+        })
+        if(res.data.status)
+        {
+          setState(true)
+        }
+        else {
+          alert('oups something went wrong')
+        }
+          handleCloseAvatar()
+      }
   return (
             <div>
               <table>
@@ -178,6 +227,11 @@ console.log("fetch----------------")
                     </td>
                     <td>
                     <Gravatar email={oauth.email} />
+                    <Avatar src={avatar}/>
+                     
+                    </td>
+                    <td>
+                    <Button variant="contained"  color="primary" endIcon={<EditIcon />}onClick={handleClickOpenAvatar}></Button>
                     </td>
                 </tr>
                 </tbody>
@@ -219,6 +273,17 @@ console.log("fetch----------------")
           <DialogActions>
             <Button onClick={handleCloseLanguage}>Cancel</Button>
             <Button variant="contained"  color="primary" endIcon={<SendIcon />}onClick={onSubmitLanguage}>update language</Button>
+          </DialogActions>
+         </Dialog>
+         <Dialog open={openAvatar} onClose={handleCloseAvatar}>
+          <DialogTitle>Avatar</DialogTitle>
+          <DialogContent>
+             {imageArray.map((image,i) =>(<img  key={i} src={image} onClick={ () =>handleChangeAvatar(image)}/>)
+             )} 
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseAvatar}>Cancel</Button>
+            <Button variant="contained"  color="primary" endIcon={<SendIcon />}onClick={onSubmitAvatar}>Update Avatar</Button>
           </DialogActions>
          </Dialog>
             </div>

@@ -147,7 +147,8 @@ async function isUser(username,email)
        //id:1,
        email:email,
        language:'français',
-       nationalitie:'français'
+       nationalitie:'français',
+       avatar :'/broken-image.jpg',
      }
      await db.users.create(user)
    }
