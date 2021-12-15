@@ -130,8 +130,9 @@ app.get('/users/:username',authenticate, async (req, res) => {
 })
 
 app.put('/users/:id',authenticate, async (req, res) => {
-  const user = await db.users.update(req.body)
-  res.json(user)
+  console.log('PUTE',req.body['user'])
+  const user = await db.users.update(req.body['user'])
+  res.status(200).json({ "status": true, "result": 'Edit successful!' })
 })
 
 async function isUser(username,email)

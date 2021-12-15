@@ -30,6 +30,8 @@ export default function FormChannel({
   const [nationalitie,setNationalitie]=useState('');
   const [language,setLanguage]=useState('');
   const [state,setState]=useState(false)
+  const [user,setUser]=useState({username:'',email:'',nationalitie:'',language:''})
+  
 
   useEffect( () => {
 console.log("fetch----------------")
@@ -44,8 +46,9 @@ console.log("fetch----------------")
        })
        console.log("user----------------",user)
 
-       setLanguage(user.language)
        setNationalitie(user.nationalitie)
+       setLanguage(user.language)
+       console.log(user)
      }catch(err){
        console.error(err)
      }
@@ -74,17 +77,61 @@ console.log("fetch----------------")
     setLanguage(e.target.value);
   };
   const onSubmit = async () => {
-
     setNationalitie(nationalitie)
+    const userObj ={
+      username : oauth.name,
+      email: oauth.email,
+      nationalitie :nationalitie,
+      language :language
+    }
+     
+    
+     console.log('UPDATE NATION',userObj)
+  const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
+    headers: {
+        'Authorization': `Bearer ${oauth.access_token}`
+    }
+  })
+  if(res.data.status)
+  {
+    setState(true)
+  }
+  else {
+    alert('oups something went wrong')
+  }
+   
     handleClose()
     }
  const onSubmitLanguage = async () => {
 
         setLanguage(language)
+        const userObj ={
+          username : oauth.name,
+          email: oauth.email,
+          nationalitie :nationalitie,
+          language :language
+        }
+         
+        
+         console.log('UPDATE LANG',userObj)
+      const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
+        headers: {
+            'Authorization': `Bearer ${oauth.access_token}`
+        }
+      })
+      if(res.data.status)
+      {
+        setState(true)
+      }
+      else {
+        alert('oups something went wrong')
+      }
         handleCloseLanguage()
         }
   return (
             <div>
+              <table>
+                <tbody>
                 <tr>
                     <td>
                         name :
@@ -133,6 +180,8 @@ console.log("fetch----------------")
                     <Gravatar email={oauth.email} />
                     </td>
                 </tr>
+                </tbody>
+                </table>
          <Dialog open={open} onClose={handleClose}>
           <DialogTitle>nationalitie(s)</DialogTitle>
           <DialogContent>
@@ -154,7 +203,7 @@ console.log("fetch----------------")
          </Dialog>
 
          <Dialog open={openLanguage} onClose={handleCloseLanguage}>
-          <DialogTitle>nationalitie(s)</DialogTitle>
+          <DialogTitle>language</DialogTitle>
           <DialogContent>
             <TextField
               id="outlined-multiline-flexible"
@@ -169,7 +218,7 @@ console.log("fetch----------------")
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseLanguage}>Cancel</Button>
-            <Button variant="contained"  color="primary" endIcon={<SendIcon />}onClick={onSubmitLanguage}>update nationalitie</Button>
+            <Button variant="contained"  color="primary" endIcon={<SendIcon />}onClick={onSubmitLanguage}>update language</Button>
           </DialogActions>
          </Dialog>
             </div>
