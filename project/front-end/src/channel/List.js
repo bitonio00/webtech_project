@@ -104,9 +104,6 @@ export default forwardRef(({
     fetch()
     setState(false)
     console.log("fetch1:",state)
-
-
-
  },[state])
   // Expose the `scroll` action
   useImperativeHandle(ref, () => ({

@@ -98,15 +98,16 @@ module.exports = {
   users: {
     create: async (user) => {
       if(!user.username) throw Error('Invalid user')
-      const id = uuid()
-      await db.put(`users:${id}`, JSON.stringify(user))
-      return merge(user, {id: id})
+      //const id = uuid()
+      await db.put(`users:${user.username}`, JSON.stringify(user))
+      return merge(user, {id: user.username})
     },
-    get: async (id) => {
-      if(!id) throw Error('Invalid id')
-      const data = await db.get(`users:${id}`)
+    get: async (username) => {
+      console.log("username:",username)
+      if(!username) throw Error('Invalid username')
+      const data = await db.get(`users:${username}`)
       const user = JSON.parse(data)
-      return merge(user, {id: id})
+      return merge(user, {id: username})
     },
     list: async () => {
       return new Promise( (resolve, reject) => {

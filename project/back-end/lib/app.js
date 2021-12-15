@@ -29,6 +29,8 @@ app.get('/channels/:users',authenticate,  async (req, res) => {
   const channels = await db.channels.list()
   const  result=myChannels(channels,req.params.users)
   await isUser(req.params.users,req.headers['email'])
+  const users=await db.users.list()
+  console.log("1ERGET",users)
   res.json(result)
 
 })
@@ -119,8 +121,11 @@ app.get('/users',authenticate, async (req, res) => {
 app.post('/users',  isUser)
 
 
-app.get('/users/:id',authenticate, async (req, res) => {
-  const user = await db.users.get(req.params.id)
+app.get('/users/:username',authenticate, async (req, res) => {
+
+  const users=await db.users.list()
+  console.log("users-------",users)
+  const user = await db.users.get(req.params.username)
   res.json(user)
 })
 
@@ -136,9 +141,12 @@ async function isUser(username,email)
    if(!bddUsers.find(user=>user.username===username))
    {
      const user={
-       id:1,
+
        username:username,
-       email:email
+       //id:1,
+       email:email,
+       language:'français',
+       nationalitie:'français'
      }
      await db.users.create(user)
    }

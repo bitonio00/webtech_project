@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios';
-import { useContext } from 'react';
+import { useContext,useEffect } from 'react';
 //local
 import Context from './Context';
 import { ReactComponent as ChannelIcon } from './icons/channel.svg';
@@ -22,13 +22,38 @@ export default function FormChannel({
 
 }) {
   const { oauth,
-    
+
   } = useContext(Context)
- 
+
   const [open, setOpen] = useState(false);
   const [openLanguage, setOpenLanguage] = useState(false);
   const [nationalitie,setNationalitie]=useState('');
   const [language,setLanguage]=useState('');
+  const [state,setState]=useState(false)
+
+  useEffect( () => {
+console.log("fetch----------------")
+   const fetch = async () => {
+    // console.log(oauth.username)
+     try{
+
+       const {data: user} = await axios.get(`http://localhost:3001/users/${oauth.name}`,{
+         headers: {
+             'Authorization': `Bearer ${oauth.access_token}`
+         }
+       })
+       console.log("user----------------",user)
+
+       setLanguage(user.language)
+       setNationalitie(user.nationalitie)
+     }catch(err){
+       console.error(err)
+     }
+   }
+
+   fetch()
+   setState(false)
+},[state])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -49,12 +74,12 @@ export default function FormChannel({
     setLanguage(e.target.value);
   };
   const onSubmit = async () => {
-   
+
     setNationalitie(nationalitie)
     handleClose()
     }
  const onSubmitLanguage = async () => {
-   
+
         setLanguage(language)
         handleCloseLanguage()
         }
@@ -67,7 +92,7 @@ export default function FormChannel({
                     <td>
                         {oauth.name}
                     </td>
-                    
+
                 </tr>
                 <tr>
                     <td>
@@ -120,7 +145,7 @@ export default function FormChannel({
               onChange={handleChange}
              variant="outlined"
            />
-          
+
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
@@ -140,7 +165,7 @@ export default function FormChannel({
               onChange={handleChangeLanguage}
              variant="outlined"
            />
-          
+
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseLanguage}>Cancel</Button>
