@@ -14,7 +14,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Language } from '@mui/icons-material';
+
+import Gravatar from 'react-gravatar'
 
 
 export default function FormChannel({
@@ -104,7 +105,7 @@ export default function FormChannel({
                         avatar :
                     </td>
                     <td>
-
+                    <Gravatar email={oauth.email} />
                     </td>
                 </tr>
          <Dialog open={open} onClose={handleClose}>
