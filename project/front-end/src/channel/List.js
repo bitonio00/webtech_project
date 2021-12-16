@@ -2,6 +2,7 @@
 /** @jsxImportSource @emotion/react */
 import {forwardRef, useImperativeHandle, useLayoutEffect, useRef, useContext, useNavigate, useEffect,useState} from 'react'
 import axios from 'axios';
+import Gravatar from 'react-gravatar'
 
 // Layout
 import { Button, outlinedInputClasses, TextField } from '@mui/material';
@@ -11,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import SendIcon from '@mui/icons-material/Send'
 import Input from '@mui/material/Input';
+import { Avatar } from '@mui/material';
 //localhost
 import Context from '../Context'
 // Markdown
@@ -72,7 +74,7 @@ export default forwardRef(({
   setMessages
 }, ref) => {
 
-  const { oauth } = useContext(Context)
+  const { oauth,avatarUser,gravatar } = useContext(Context)
   const [state,setState]=useState(false)
   // const [stateEdit,setStateEdit]=useState({showEdit:false} , {idMessage: null})
   const [editContent,setEditContent]=useState('')
@@ -133,7 +135,6 @@ export default forwardRef(({
   })
 
    const  onDelete = async (message) => {
-     console.log("onDelete:")
 
        const res=await axios.delete(`http://localhost:3001/channels/${message.channelId}/messages/${message.creation}`,{
       headers: {
@@ -151,8 +152,6 @@ export default forwardRef(({
   }
   const onEdit = async () => {
 
-     console.log(editContent)
-    // e.preventDefault()
     const res = await axios.put(`http://localhost:3001/channels/${editedChannelId}/messages/${editedCreation}`,{content:editContent}, {
       headers:{
         'Authorization': `Bearer ${oauth.access_token}`
@@ -187,7 +186,15 @@ export default forwardRef(({
 
             return (
               <li key={i} css={styles.message}>
+              <div>
                 <p>
+                {
+                  gravatar ?
+                  <Gravatar email={oauth.email} />
+                  :
+                  <Avatar src={avatarUser}/>
+
+                }
                   <span>{message.author}</span>
                   {' - '}
                   <span>{dayjs().calendar(message.creation)}</span>
@@ -213,6 +220,7 @@ export default forwardRef(({
               <span></span>
             }
                 </p>
+                </div>
                 <div dangerouslySetInnerHTML={{__html: value}}>
                 </div>
 

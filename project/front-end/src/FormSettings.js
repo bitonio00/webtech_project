@@ -31,7 +31,7 @@ export default function FormChannel({
 
 }) {
   const { oauth,
-    gravatar,setGravatar
+    gravatar,setGravatar,setAvatarUser,
 
   } = useContext(Context)
 
@@ -214,6 +214,7 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
         if(res.data.status)
         {
           setState(true)
+          setAvatarUser(avatar)
         }
         else {
           alert('oups something went wrong')
@@ -229,7 +230,8 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
 
    console.log('UPDATE image',files[0])
    const base64 = await convertBase64(files[0]);
-    setBaseImage(base64);
+    setBaseImage(base64)
+
     const userObj ={
       username : oauth.name,
       email: oauth.email,
@@ -246,6 +248,7 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
     if(res.data.status)
     {
         setState(true)
+        setAvatarUser(base64)
     }
     else {
       alert('oups something went wrong')
@@ -321,7 +324,7 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
 
                       {gravatar=== true?<Gravatar email={oauth.email} />
                       :<Avatar src={avatar}/>}
-                     
+
 
                     </td>
                     <td>
@@ -353,11 +356,11 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
                 </tr>
                 <tr>
                    <td>
-                      use gravatar 
+                      use gravatar
                    </td>
                    <td>
                      <Switch  onChange={handleChangeSwitch}/>
-                     
+
                    </td>
                 </tr>
 
@@ -365,7 +368,7 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
                 </tbody>
                 </table>
 
-                
+
 
          <Dialog open={open} onClose={handleClose}>
           <DialogTitle>nationalitie(s)</DialogTitle>
