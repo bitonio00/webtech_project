@@ -88,7 +88,7 @@ export default function FormChannel({
   };
   return (
      <div>
-       <Button variant="outlined" onClick={handleClickOpen}>
+       <Button variant="text" onClick={handleClickOpen}>
        <ChannelIcon css={styles.icon} />
        Create channel
       </Button>

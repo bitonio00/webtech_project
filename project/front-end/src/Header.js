@@ -5,6 +5,8 @@ import { useContext } from 'react';
 import { useTheme } from '@mui/styles';
 import { IconButton, Link } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Button} from '@mui/material';
 import Context from './Context';
 
 const useStyles = (theme) => ({
@@ -12,6 +14,8 @@ const useStyles = (theme) => ({
     padding: theme.spacing(1),
     backgroundColor: 'rgba(255,255,255,.3)',
     flexShrink: 0,
+    display:'flex',
+    JustifyContent:'space-between'
   },
   headerLogIn: {
     backgroundColor: 'red',
@@ -43,6 +47,7 @@ export default function Header({
   }
   return (
     <header css={styles.header}>
+      <div>
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -51,18 +56,19 @@ export default function Header({
       >
         <MenuIcon />
       </IconButton>
-      Header
+      Header</div>
+      <div>
       {
         oauth ?
           <span>
             {oauth.email}
             {oauth.name}
-            <Link onClick={onClickLogout}>logout</Link>
+            <Button variant='contained' onClick={onClickLogout}>logout <LogoutIcon/></Button>
           </span>
         :
           <span>new user</span>
       }
-
+      </div>
     </header>
   );
 }

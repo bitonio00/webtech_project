@@ -3,12 +3,12 @@
 import {useContext, useEffect} from 'react';
 import axios from 'axios';
 // Layout
-import {Link} from '@mui/material';
+import {Link, listClasses} from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 // Local
 import Context from './Context'
 import {useNavigate} from 'react-router-dom'
-
+import CommentIcon from '@mui/icons-material/Comment';
 import { List } from '@mui/material';
 import { ListItem } from '@mui/material';
 import { ListItemIcon } from '@mui/material';
@@ -49,14 +49,14 @@ export default function Channels() {
   return (
     <List>
     <ul css={styles.root}>
-      <ListItem css={styles.channel}>
+      <ListItem  button css={styles.channel}>
 
          <Link to="/channels" component={RouterLink}>Welcome</Link>
 
       </ListItem>
       { channels.map( (channel, i) => (
        console.log(channel.users),
-        <ListItem key={i} css={styles.channel}>
+        <ListItem  button key={i} css={styles.channel}>
           <Link
             href={`/channels/${channel.id}`}
             onClick={ (e) => {
@@ -66,7 +66,9 @@ export default function Channels() {
           >
             {channel.name}
           </Link>
-
+          <ListItemIcon edge='end' aria-label="comments">
+            <CommentIcon/>
+          </ListItemIcon>
       </ListItem>
       ))}
     </ul>
