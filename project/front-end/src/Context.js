@@ -14,6 +14,7 @@ export const Provider = ({
   const [drawerVisible, setDrawerVisible] = useState(false)
   const [channels, setChannels] = useState([])
   const [currentChannel, setCurrentChannel] = useState(null)
+  const [gravatar,setGravatar] = useState(false)
   return (
     <Context.Provider value={{
       oauth: oauth,
@@ -34,10 +35,12 @@ export const Provider = ({
         }
         setOauth(oauth)
       },
-      channels: channels,
+      channels: channels, 
+      gravatar: gravatar,
       drawerVisible: drawerVisible,
       setDrawerVisible: setDrawerVisible,
       setChannels: setChannels,
+      setGravatar: setGravatar,
       currentChannel: currentChannel,
       setCurrentChannel: (channelId) => {
         const channel = channels.find( channel => channel.id === channelId)
