@@ -1,10 +1,12 @@
 
 import React, {useState} from 'react'
 import { useCookies } from 'react-cookie'
+import axios from 'axios';
 
 const Context = React.createContext()
 
 export default Context
+
 
 export const Provider = ({
   children
@@ -15,6 +17,7 @@ export const Provider = ({
   const [channels, setChannels] = useState([])
   const [currentChannel, setCurrentChannel] = useState(null)
   const [gravatar,setGravatar] = useState(false)
+  const [avatarUser,setAvatarUser]=useState()
   return (
     <Context.Provider value={{
       oauth: oauth,
@@ -35,7 +38,19 @@ export const Provider = ({
         }
         setOauth(oauth)
       },
-      channels: channels, 
+      avatarUser:avatarUser,
+      setAvatarUser:async (username)=>
+      {
+
+        const {data: user} = await axios.get(`http://localhost:3001/users/${oauth.name}`, {
+         headers: {
+            'Authorization': `Bearer ${oauth.access_token}`
+          }
+        })
+        console.log(user.avatar)
+        setAvatarUser(user.avatar)
+      },
+      channels: channels,
       gravatar: gravatar,
       drawerVisible: drawerVisible,
       setDrawerVisible: setDrawerVisible,

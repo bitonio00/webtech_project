@@ -12,7 +12,6 @@ const config = {
   await app.listen(config.port);
   await Promise.all([{
     name: 'Channel 1',
-    id:1,
     messages: [{
       author: 'sergei',
       creation: 1602831101929,
@@ -30,7 +29,6 @@ const config = {
       - 'Channel.js' prints the messages, uses 'Messages.js' and 'MessageSend.js'
       - 'Messages.js' prints the list of messages inside the current channel
       - 'MessageForm.js' send a new message
-
       \`\`\`
       +--------------------------------------------+
       |                  Header                    |
@@ -91,7 +89,6 @@ const config = {
     }]
   },{
     name: 'Channel 2',
-    id:1,
     messages: [{
       author: 'sergei',
       creation: 1602223579200,
@@ -107,7 +104,6 @@ const config = {
     }]
   },{
     name: 'Channel 3',
-    id:1,
     messages: [{
       author: 'sergei',
       creation: 1602223579200,
@@ -121,13 +117,6 @@ const config = {
       42
       `.replace(/^ {6}/gm,'')
     }]
-  }].map( async (channel) => {
-    const {data: {id}} = await axios.post(`http://localhost:${config.port}/channels`, {
-      name: channel.name
-    })
-    return Promise.all( channel.messages.map( async (message) => {
-      await axios.post(`http://localhost:${config.port}/channels/${id}/messages`, message)
-    }))
-  }))
+  }])
   process.exit()
 })();

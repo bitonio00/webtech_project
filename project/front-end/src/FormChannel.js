@@ -20,7 +20,6 @@ const useStyles = (theme) => ({
     height: '100%',
     flex: '1 1 auto',
     display: 'flex',
-    // background: 'rgba(0,0,0,.2)',
   },
   card: {
     textAlign: 'center',
@@ -73,12 +72,12 @@ export default function FormChannel({
        'Authorization': `Bearer ${oauth.access_token}`
      }
    })
-   
+
    setChannels(channels)
   handleClose()
   console.log(channels)
   console.log(channelObj)
-  
+
 }
   const handleChange = (e) => {
     setChannel(e.target.value);
@@ -119,7 +118,7 @@ export default function FormChannel({
             <Button variant="contained"  color="primary" endIcon={<SendIcon />}onClick={onSubmit}>Add a channel</Button>
           </DialogActions>
       </Dialog>
-    
+
   </div>
   )
 }
