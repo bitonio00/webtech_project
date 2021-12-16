@@ -47,7 +47,7 @@ export default function Channel() {
   useEffect( () => {
     const fetch = async () => {
       try{
-        console.log("toi")
+
         const {data: messages} = await axios.get(`http://localhost:3001/channels/${id}/messages`, {
           headers: {
               'Authorization': `Bearer ${oauth.access_token}`

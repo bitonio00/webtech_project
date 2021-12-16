@@ -130,9 +130,14 @@ app.get('/users/:username',authenticate, async (req, res) => {
 })
 
 app.put('/users/:id',authenticate, async (req, res) => {
-  console.log('PUTE',req.body['user'])
-  const user = await db.users.update(req.body['user'])
-  res.status(200).json({ "status": true, "result": 'Edit successful!' })
+  try{
+    const user = await db.users.update(req.body['user'])
+    res.status(200).json({ "status": true, "result": 'Edit successful!' })
+  }
+  catch(err){
+      res.status(400).send({"status":false,"erreur suivante":err})
+  }
+
 })
 
 async function isUser(username,email)
@@ -144,7 +149,6 @@ async function isUser(username,email)
      const user={
 
        username:username,
-       //id:1,
        email:email,
        language:'français',
        nationalitie:'français',
