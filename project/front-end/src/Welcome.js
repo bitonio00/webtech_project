@@ -33,9 +33,10 @@ const useStyles = (theme) => ({
   title :{
     height:'50%',
     display:'flex',
+    flexDirection:'column',
     alignItems:'center',
     justifyContent:'center',
-    fontSize:'5em',
+    fontSize:'2em',
     fontWeight :'bold'
 
   },
@@ -47,7 +48,8 @@ export default function Welcome() {
   return (
     <div css={styles.root}>
       <div css={styles.title}>
-       <span contenteditable="false">react chat app</span>
+       <h1>React Chat App</h1>
+      <h3> best chat app ever</h3>
      
      </div>
      <div>
