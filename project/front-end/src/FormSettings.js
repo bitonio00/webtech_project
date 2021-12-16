@@ -24,12 +24,14 @@ import Pic1 from './avatar/avatar_zoro.jpg'
 import Pic2 from './avatar/avatar_urss.png'
 import Gravatar from 'react-gravatar'
 import { Avatar } from '@mui/material';
+import Switch from '@mui/material/Switch';
 
 
 export default function FormChannel({
 
 }) {
   const { oauth,
+    gravatar,setGravatar
 
   } = useContext(Context)
 
@@ -128,6 +130,10 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
     console.log('click image')
     setAvatar(image);
     console.log(avatar)
+  };
+  const handleChangeSwitch = (e) => {
+    setGravatar(e.target.checked);
+    console.log(gravatar);
   };
   
   const onSubmit = async () => {
@@ -289,8 +295,8 @@ const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: 
                         avatar :
                     </td>
                     <td>
-                    <Gravatar email={oauth.email} />
-                    <Avatar src={avatar}/>
+                      {gravatar=== true?<Gravatar email={oauth.email} />
+                      :<Avatar src={avatar}/>}
                      
                     </td>
                     <td>
@@ -320,6 +326,16 @@ const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: 
                     </div>
                     </td>
                 </tr>
+                <tr>
+                   <td>
+                      use gravatar 
+                   </td>
+                   <td>
+                     <Switch  onChange={handleChangeSwitch}/>
+                     
+                   </td>
+                </tr>
+
 
                 </tbody>
                 </table>
