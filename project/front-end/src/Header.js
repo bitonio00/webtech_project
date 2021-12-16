@@ -45,6 +45,7 @@ export default function Header({
   }
   useEffect( () => {
     const fetch = async () => {
+      if(oauth)
       setAvatarUser(oauth.username)
     }
     fetch()
@@ -81,6 +82,11 @@ export default function Header({
           return (
             <Avatar src={avatarUser}/>
           )
+        }
+        else {
+          {
+            <span></span>
+          }
         }
       })()}
 
