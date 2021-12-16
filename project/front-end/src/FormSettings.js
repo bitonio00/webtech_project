@@ -48,7 +48,7 @@ export default function FormChannel({
   const [imageArray,setImageArray]=useState([Pic1,Pic2])
   const [files, setFiles] = useState([])
   const [validate,setValidate]=useState(false)
-
+  const [baseImage, setBaseImage] = useState("")
 
 
 
@@ -131,11 +131,14 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
     setAvatar(image);
     console.log(avatar)
   };
+
   const handleChangeSwitch = (e) => {
     setGravatar(e.target.checked);
     console.log(gravatar);
   };
-  
+
+
+
   const onSubmit = async () => {
     setNationalitie(nationalitie)
     const userObj ={
@@ -200,8 +203,8 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
             language :language,
             avatar: avatar,
           }
-           
-          
+
+
            console.log('UPDATE Avatar',userObj)
         const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
           headers: {
@@ -222,16 +225,20 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
 
  const onUpload=async ()=>
  {
-   const userObj ={
-     username : oauth.name,
-     email: oauth.email,
-     nationalitie :nationalitie,
-     language :language,
-     avatar:files
-   }
 
-   console.log('UPDATE image',userObj)
-const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
+
+   console.log('UPDATE image',files[0])
+   const base64 = await convertBase64(files[0]);
+    setBaseImage(base64);
+    const userObj ={
+      username : oauth.name,
+      email: oauth.email,
+      nationalitie :nationalitie,
+      language :language,
+      avatar:base64
+    }
+    console.log("grossepute",base64)
+  const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
   headers: {
       'Authorization': `Bearer ${oauth.access_token}`
   }
@@ -245,6 +252,22 @@ const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: 
     }
 
  }
+
+ const convertBase64 = (file) => {
+     return new Promise((resolve, reject) => {
+       const fileReader = new FileReader();
+       fileReader.readAsDataURL(file);
+
+       fileReader.onload = () => {
+         resolve(fileReader.result);
+       };
+
+       fileReader.onerror = (error) => {
+         reject(error);
+       };
+     });
+   };
+
 
   return (
             <div>
@@ -295,9 +318,11 @@ const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: 
                         avatar :
                     </td>
                     <td>
+
                       {gravatar=== true?<Gravatar email={oauth.email} />
                       :<Avatar src={avatar}/>}
                      
+
                     </td>
                     <td>
                     <Button variant="contained"  color="primary" endIcon={<EditIcon />}onClick={handleClickOpenAvatar}></Button>
@@ -308,7 +333,7 @@ const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: 
                         upload your avatar :
                     </td>
                     <td>
-                    <div>
+                    <div style={{display:'flex'}}>
                     <div {...getRootProps()}>
                     <input {...getInputProps()} />
                     <IconButton >
@@ -339,6 +364,8 @@ const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: 
 
                 </tbody>
                 </table>
+
+                
 
          <Dialog open={open} onClose={handleClose}>
           <DialogTitle>nationalitie(s)</DialogTitle>
@@ -383,7 +410,7 @@ const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: 
           <DialogTitle>Avatar</DialogTitle>
           <DialogContent>
              {imageArray.map((image,i) =>(<img  key={i} src={image} onClick={ () =>handleChangeAvatar(image)}/>)
-             )} 
+             )}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseAvatar}>Cancel</Button>
