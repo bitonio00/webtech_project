@@ -186,15 +186,16 @@ export default forwardRef(({
 
             return (
               <li key={i} css={styles.message}>
-              <div>
-                <p>
+              <div style={{display:'flex'}}>
+                <div>
                 {
                   gravatar ?
                   <Gravatar email={oauth.email} />
                   :
                   <Avatar src={avatarUser}/>
 
-                }
+                }</div>
+                <div>
                   <span>{message.author}</span>
                   {' - '}
                   <span>{dayjs().calendar(message.creation)}</span>
@@ -218,8 +219,8 @@ export default forwardRef(({
               </IconButton>
               :
               <span></span>
-            }
-                </p>
+            }</div>
+                
                 </div>
                 <div dangerouslySetInnerHTML={{__html: value}}>
                 </div>
