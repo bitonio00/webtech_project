@@ -10,11 +10,8 @@ module.exports = {
     create: async (channel) => {
       if(!channel.name) throw Error('Invalid channel')
       channel.id = uuid()
-      console.log(channel.id)
-
       await db.put(`channels:${channel.id}`, JSON.stringify(channel))
       const data = await db.get(`channels:${channel.id}`)
-      //console.log('channel |||||',channel)
       return merge(channel, {id: channel.id})
     },
     get: async (id) => {
@@ -70,7 +67,6 @@ module.exports = {
      update: async(content,channelId,creation)=>{
        const editMessage=content
        const data=await db.get(`messages:${channelId}:${creation}`)
-       console.log(data)
        let message=JSON.parse(data)
        message.content=editMessage
        await db.put(`messages:${channelId}:${creation}`,JSON.stringify(message))
@@ -103,7 +99,6 @@ module.exports = {
       return merge(user, {id: user.username})
     },
     get: async (username) => {
-      console.log("username:",username)
       if(!username) throw Error('Invalid username')
       const data = await db.get(`users:${username}`)
       const user = JSON.parse(data)
@@ -127,7 +122,6 @@ module.exports = {
       })
     },
     update: async (user) => {
-      console.log('HEY',user)
       await db.put(`users:${user.username}`,JSON.stringify(user))
     },
     delete: (id, user) => {

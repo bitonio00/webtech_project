@@ -30,13 +30,12 @@ app.get('/channels/:users',authenticate,  async (req, res) => {
   const  result=myChannels(channels,req.params.users)
   await isUser(req.params.users,req.headers['email'])
   const users=await db.users.list()
-  console.log("1ERGET",users)
   res.json(result)
 
 })
 
 app.post('/channels',authenticate, async (req, res) => {
-
+console.log("eeeeeeeeeeeeeeeee")
   const channel = await db.channels.create(req.body['channel'])
   res.status(201).json(channel)
 
@@ -49,16 +48,14 @@ app.post('/channels/init', async (req, res) => {
 })
 
 app.delete('/channels/:id/messages/:creation',authenticate, async (req, res) => {
+    c
   try{
-
     await db.messages.delete(req.params.id, req.params.creation)
      res.status(200).json({ "status": true, "result": 'Edit successful!' })
   }
   catch(err){
     res.status(400).send({"status":false,"erreur suivante":err})
   }
-  const messages=await db.messages.list()
-  console.log("delete",messages)
 })
 
 app.put('/channels/:id/messages/:creation',authenticate,async (req, res) => {
@@ -68,7 +65,6 @@ app.put('/channels/:id/messages/:creation',authenticate,async (req, res) => {
     res.status(200).json({ "status": true, "result": 'Edit successful!' })
   }
   catch(err){
-    console.log("errr")
     res.status(400).send({"status":false,"erreur suivante ":err})
   }
 })
@@ -95,7 +91,6 @@ app.put('/channels/:id',authenticate, async (req, res) => {
 app.get('/channels/:id/messages',authenticate, async (req, res) => {
 
   try{
-
     const channel = await db.channels.get(req.params.id)
   }catch(err){
     return res.status(404).send('Channel does not exist.')
@@ -122,9 +117,7 @@ app.post('/users',  isUser)
 
 
 app.get('/users/:username',authenticate, async (req, res) => {
-
   const users=await db.users.list()
-  console.log("users-------",users)
   const user = await db.users.get(req.params.username)
   res.json(user)
 })
