@@ -48,7 +48,7 @@ app.post('/channels/init', async (req, res) => {
 })
 
 app.delete('/channels/:id/messages/:creation',authenticate, async (req, res) => {
-    c
+    
   try{
     await db.messages.delete(req.params.id, req.params.creation)
      res.status(200).json({ "status": true, "result": 'Edit successful!' })

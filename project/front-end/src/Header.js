@@ -5,6 +5,8 @@ import { useContext,useEffect } from 'react';
 import { useTheme } from '@mui/styles';
 import { IconButton, Link } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Button} from '@mui/material';
 import Context from './Context';
 import Gravatar from 'react-gravatar'
 import { Avatar } from '@mui/material';
@@ -14,6 +16,10 @@ const useStyles = (theme) => ({
     padding: theme.spacing(1),
     backgroundColor: 'rgba(255,255,255,.3)',
     flexShrink: 0,
+    display:'flex',
+    border:'solid',
+    justifyContent:'space-between'
+    
   },
   headerLogIn: {
     backgroundColor: 'red',
@@ -44,14 +50,20 @@ export default function Header({
     setOauth(null)
   }
   useEffect( () => {
+    console.log('IMG')
     const fetch = async () => {
       if(oauth)
       setAvatarUser(oauth.username)
+      console.log('avatar user',avatarUser)
     }
     fetch()
   }, [avatarUser,gravatar])
   return (
-    <header  css={styles.header}>
+
+    <header css={styles.header}>
+      <div>
+
+ 
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -60,36 +72,55 @@ export default function Header({
       >
         <MenuIcon />
       </IconButton>
-
-      {
-        oauth ?
-          <span>
-            {oauth.email}
-            {oauth.name}
-            <Link onClick={onClickLogout}>logout</Link>
-          </span>
-        :
-          <span>new user</span>
-      }
-
+  </div>
+  <div>
       {(() => {
         if (  gravatar && oauth ) {
           return (
-            <Gravatar email={oauth.email} />
+            
+            <div style={{display:'flex'}}>
+              <Gravatar email={oauth.email} />
+              <p>{oauth.name}</p>
+            </div>
 
           )
         } else if (avatarUser && oauth) {
           return (
+            <div style={{display:'flex'}}>
             <Avatar src={avatarUser}/>
+            <p>{oauth.name}</p>
+            </div>
           )
         }
-        else {
-          {
-            <span></span>
+        else if(oauth) {
+           return(
+            <div>
+            <p>{oauth.name}</p>
+            </div>)
           }
-        }
+          else {
+            return(
+              <span></span>
+              )
+          }
+        
       })()}
 
+  </div>
+  <div>
+      {
+        oauth ?
+          <span>
+            
+            <Button variant='contained' onClick={onClickLogout}>logout <LogoutIcon/></Button>
+          </span>
+        :
+          <span>new user</span>
+      }
+</div>
+     
+
+    
     </header>
   );
 }
