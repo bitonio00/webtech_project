@@ -20,6 +20,7 @@ const useStyles = (theme) => ({
     height: '100%',
     flex: '1 1 auto',
     display: 'flex',
+  
   },
   card: {
     textAlign: 'center',

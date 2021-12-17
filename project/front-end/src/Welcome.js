@@ -10,6 +10,7 @@ import FormChannel from './FormChannel';
 import {Link} from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { borderRadius, fontSize, height } from '@mui/system';
+import { Button, outlinedInputClasses, TextField } from '@mui/material';
 
 const useStyles = (theme) => ({
   root: {
@@ -19,7 +20,7 @@ const useStyles = (theme) => ({
     flexDirection:'column',
     background: '#E3E2DF',
     color:'#0B0C10',
-    borderRadius: 5
+    
   },
   card: {
     textAlign: 'center',
@@ -27,7 +28,7 @@ const useStyles = (theme) => ({
     borderRadius: 5
   },
   icon: {
-    width: '30%',
+    width: '100%',
     fill: '#fff',
   },
   title :{
@@ -82,6 +83,7 @@ export default function Welcome() {
         </Grid>
         <Grid item xs>
           <div css={styles.card}>
+          <Button variant="text">
           <Link to ='/settings' component={RouterLink}>
             
              <SettingsIcon css={styles.icon} />
@@ -90,6 +92,7 @@ export default function Welcome() {
               </Typography>
               
            </Link>
+           </Button>
               <h3>here is your settings :</h3>
               <p>you can change your information and </p>
               <p>chose an avatar</p>

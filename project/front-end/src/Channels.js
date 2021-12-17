@@ -3,7 +3,7 @@
 import {useContext, useEffect} from 'react';
 import axios from 'axios';
 // Layout
-import {Link, listClasses} from '@mui/material';
+import {Link, listClasses, ListItemButton} from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 // Local
 import Context from './Context'
@@ -19,6 +19,18 @@ const styles = {
     '& a': {
       padding: '.2rem .5rem',
       whiteSpace: 'nowrap',
+      
+    },
+    channel :{
+      backgroundColor: 'rgba(255,255,255,.3)',
+      "& .Mui-selected": {
+        backgroundColor: "pink",
+        color: "red",
+        fontWeight: "bold"
+      },
+      "& .Mui-selected:hover": {
+        backgroundColor: "tomato"
+      }
     }
   },
 }
@@ -57,6 +69,7 @@ export default function Channels() {
       { channels.map( (channel, i) => (
        console.log(channel.users),
         <ListItem  button key={i} css={styles.channel}>
+          <ListItemButton variant="outlined">
           <Link
             href={`/channels/${channel.id}`}
             onClick={ (e) => {
@@ -69,6 +82,7 @@ export default function Channels() {
           <ListItemIcon edge='end' aria-label="comments">
             <CommentIcon/>
           </ListItemIcon>
+          </ListItemButton>
       </ListItem>
       ))}
     </ul>

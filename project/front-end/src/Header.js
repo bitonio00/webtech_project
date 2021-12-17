@@ -17,7 +17,9 @@ const useStyles = (theme) => ({
     backgroundColor: 'rgba(255,255,255,.3)',
     flexShrink: 0,
     display:'flex',
-    JustifyContent:'space-between',
+    border:'solid',
+    justifyContent:'space-between'
+    
   },
   headerLogIn: {
     backgroundColor: 'red',
@@ -73,12 +75,19 @@ export default function Header({
       {(() => {
         if (  gravatar && oauth ) {
           return (
-            <Gravatar email={oauth.email} />
+            
+            <div style={{display:'flex'}}>
+              <Gravatar email={oauth.email} />
+              <p>{oauth.name}</p>
+            </div>
 
           )
         } else if (avatarUser && oauth) {
           return (
+            <div style={{display:'flex'}}>
             <Avatar src={avatarUser}/>
+            <p>{oauth.name}</p>
+            </div>
           )
         }
         else {
@@ -93,8 +102,7 @@ export default function Header({
       {
         oauth ?
           <span>
-            {oauth.email}
-            {oauth.name}
+            
             <Button variant='contained' onClick={onClickLogout}>logout <LogoutIcon/></Button>
           </span>
         :

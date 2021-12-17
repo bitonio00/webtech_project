@@ -169,7 +169,7 @@ export default forwardRef(({
 
   return (
     <div css={styles.root} ref={rootEl}>
-      <div style={{display: 'flex'},{justifyContent:'space-between'}}>
+      <div style={{display: 'flex',justifyContent:'space-between'}}>
          <h1>Messages for {channel.name}</h1>
          <FormUser channel={channel} />
       </div>
