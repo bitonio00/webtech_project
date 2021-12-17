@@ -21,17 +21,7 @@ const styles = {
       whiteSpace: 'nowrap',
       
     },
-    channel :{
-      backgroundColor: 'rgba(255,255,255,.3)',
-      "& .Mui-selected": {
-        backgroundColor: "pink",
-        color: "red",
-        fontWeight: "bold"
-      },
-      "& .Mui-selected:hover": {
-        backgroundColor: "tomato"
-      }
-    }
+    
   },
 }
 

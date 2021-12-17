@@ -50,9 +50,11 @@ export default function Header({
     setOauth(null)
   }
   useEffect( () => {
+    console.log('IMG')
     const fetch = async () => {
       if(oauth)
       setAvatarUser(oauth.username)
+      console.log('avatar user',avatarUser)
     }
     fetch()
   }, [avatarUser,gravatar])
@@ -90,11 +92,18 @@ export default function Header({
             </div>
           )
         }
-        else {
-          {
-            <span></span>
+        else if(oauth) {
+           return(
+            <div>
+            <p>{oauth.name}</p>
+            </div>)
           }
-        }
+          else {
+            return(
+              <span></span>
+              )
+          }
+        
       })()}
 
   </div>
