@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import Context from './Context';
 // Layout
 import { Button, outlinedInputClasses, TextField } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import { useTheme } from '@mui/styles';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -15,7 +16,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+const useStyles = (theme) => ({
 
+  icon: {
+    width: '100%',
+    heigth:'50px',
+    fill: '#fff',
+  }
+})
 
 export default function FormUser({
   channel
@@ -24,6 +32,7 @@ export default function FormUser({
   const [user,setUser]=useState('')
   const [open, setOpen] = useState(false);
   const {oauth}=useContext(Context)
+  const styles = useStyles(useTheme())
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -53,9 +62,10 @@ export default function FormUser({
   };
   return (
     <div> 
-      <Button variant="outlined" onClick={handleClickOpen}>
-        <GroupAddIcon />
-     </Button>
+       <Button varitant='outlined' onClick={handleClickOpen}  style={{width:'100px',height:'100px'}}>
+         <GroupAddIcon  fontSize='large'/>
+      </Button>
+      
      <Dialog open={open} onClose={handleClose}>
        <DialogTitle>add user</DialogTitle>
        <DialogContent>

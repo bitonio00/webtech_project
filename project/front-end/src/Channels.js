@@ -9,6 +9,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import Context from './Context'
 import {useNavigate} from 'react-router-dom'
 import CommentIcon from '@mui/icons-material/Comment';
+import HomeIcon from '@mui/icons-material/Home';
 import { List } from '@mui/material';
 import { ListItem } from '@mui/material';
 import { ListItemIcon } from '@mui/material';
@@ -27,6 +28,7 @@ const styles = {
     display :'flex',
     justifyContent:'space-between',
      border:'solid',
+     borderRadius:'15px',
      height :'100%'
     
    }
@@ -62,6 +64,9 @@ export default function Channels() {
       <ListItem  button css={styles.channel}>
 
          <Link to="/channels" component={RouterLink}>Welcome</Link>
+         <ListItemIcon edge='end' aria-label="comments">
+            <HomeIcon/>
+          </ListItemIcon>
 
       </ListItem>
       { channels.map( (channel, i) => (
