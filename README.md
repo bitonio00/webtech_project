@@ -49,12 +49,12 @@ Une fois connecté l'utilisateur retrouve une page d'acceuille stylisé avec du 
 #### b. Créer un Channel:
 
 ![alt](IMG/CreateChannel.png)
-Un utilisateur peut créer des channels, il en devient alors un des administrateurs, il sera lui et les autres participants les seules a pouvoir y accéder et à rajouter des users en cours de route . Un utilisateur pourra donc retrouver ses propres channels ainsi que ceux ou il a été ajouté.
+Un utilisateur peut créer des channels, il en devient alors un des administrateurs, il sera lui et les autres participants les seules a pouvoir y accéder et à ajouter des users en cours de route . Un utilisateur pourra donc retrouver ses propres channels ainsi que ceux ou il a été ajouté.
 
 #### c. Ajouter un user au channel :
 
 ![alt](IMG/addUser.png)
-Les membres du channel peuvent ajouter des membres  uniquement si l'utilisateur n'est  pas déjà dans le channel. Une fois ajouté vous pouvez voir la liste des users du channel
+Les membres du channel peuvent ajouter des membres  uniquement si l'utilisateur n'est  pas déjà dans le channel. Il doit entrer sont username obligatoirement. Une fois ajouté vous pouvez voir la liste des users du channel
 
 #### d.  Messages:
 
