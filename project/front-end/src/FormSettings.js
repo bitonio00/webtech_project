@@ -21,7 +21,10 @@ import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
 
 import Pic1 from './avatar/avatar_zoro.jpg'
-import Pic2 from './avatar/avatar_urss.png'
+import Pic2 from './avatar/avatar_gojo.jpg'
+import Pic3 from './avatar/avatar_kirua.jpg'
+import Pic4 from './avatar/avatar_naruto.jpg'
+
 import Gravatar from 'react-gravatar'
 import { Avatar } from '@mui/material';
 import Switch from '@mui/material/Switch';
@@ -45,7 +48,7 @@ export default function FormChannel({
   const [state,setState]=useState(false)
 
   const [user,setUser]=useState({username:'',email:'',nationalitie:'',language:''})
-  const [imageArray,setImageArray]=useState([Pic1,Pic2])
+  const [imageArray,setImageArray]=useState([Pic1,Pic2,Pic3,Pic4])
   const [files, setFiles] = useState([])
   const [validate,setValidate]=useState(false)
   const [baseImage, setBaseImage] = useState("")
@@ -413,7 +416,7 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
          <Dialog open={openAvatar} onClose={handleCloseAvatar}>
           <DialogTitle>Avatar</DialogTitle>
           <DialogContent>
-             {imageArray.map((image,i) =>(<img  key={i} src={image} onClick={ () =>handleChangeAvatar(image)}/>)
+             {imageArray.map((image,i) =>(<img  key={i} src={image} style={{width :'100px',height:'100px'}} onClick={ () =>handleChangeAvatar(image)}/>)
              )}
           </DialogContent>
           <DialogActions>
