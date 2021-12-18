@@ -59,14 +59,19 @@ export default function FormUser({
 
   }
   const handleChange = (e) => {
-    setUser(e.target.value);
-  };
+    const alreadyExist=channel.users.find(user=>user===e.target.value)
+    if(!alreadyExist){
+      setUser(e.target.value);
+    }
+
+  }
+  
   return (
-    <div> 
+    <div>
        <Button varitant='outlined' onClick={handleClickOpen}  style={{width:'100px',height:'100px'}}>
          <GroupAddIcon  fontSize='large'/>
       </Button>
-      
+
      <Dialog open={open} onClose={handleClose}>
        <DialogTitle> user</DialogTitle>
        <DialogContent>
@@ -85,7 +90,7 @@ export default function FormUser({
          <Button variant="contained"  color="primary" endIcon={<SendIcon />}onClick={onSubmit}>Add User</Button>
        </DialogActions>
      </Dialog>
-    
+
     </div>
   )
 }

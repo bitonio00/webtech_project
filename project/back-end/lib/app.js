@@ -48,7 +48,7 @@ app.post('/channels/init', async (req, res) => {
 })
 
 app.delete('/channels/:id/messages/:creation',authenticate, async (req, res) => {
-    
+
   try{
     await db.messages.delete(req.params.id, req.params.creation)
      res.status(200).json({ "status": true, "result": 'Edit successful!' })
@@ -76,12 +76,13 @@ app.get('/channels/:id', authenticate,async (req, res) => {
 app.put('/channels/:id',authenticate, async (req, res) => {
 
   await isUser(req.body['edited'].users)
-  try{
-  const channel = await db.channels.update(req.params.id,req.body['edited'])
-  res.status(200).json({ "status": true, "result": 'Edit successful!' })
-}catch(err){
-  res.status(400).send({"status":false,"erreur suivante":err})
-}
+
+    try{
+    const channel = await db.channels.update(req.params.id,req.body['edited'])
+    res.status(200).json({ "status": true, "result": 'Edit successful!' })
+  }catch(err){
+    res.status(400).send({"status":false,"erreur suivante":err})
+  }
 
 })
 
@@ -148,6 +149,10 @@ async function isUser(username,email)
        avatar :'/broken-image.jpg',
      }
      await db.users.create(user)
+     return false
+   }
+   else{
+     return true
    }
 }
 

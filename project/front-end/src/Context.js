@@ -18,6 +18,7 @@ export const Provider = ({
   const [currentChannel, setCurrentChannel] = useState(null)
   const [gravatar,setGravatar] = useState(false)
   const [avatarUser,setAvatarUser]=useState()
+  const[usersChannel,setUsersChannel]=useState([])
   return (
     <Context.Provider value={{
       oauth: oauth,
@@ -47,8 +48,22 @@ export const Provider = ({
             'Authorization': `Bearer ${oauth.access_token}`
           }
         })
-        console.log(user.avatar)
+      
         setAvatarUser(user.avatar)
+          console.log('avatarUSERu',avatarUser)
+      },
+      usersChannel:usersChannel,
+      setUsersChannel:async ()=>
+      {
+
+        const {data: users} = await axios.get(`http://localhost:3001/users`, {
+         headers: {
+            'Authorization': `Bearer ${oauth.access_token}`
+          }
+        })
+
+        setUsersChannel(users)
+        console.log('dans context',usersChannel)
       },
       channels: channels,
       gravatar: gravatar,

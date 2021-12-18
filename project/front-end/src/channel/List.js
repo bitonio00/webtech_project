@@ -75,7 +75,7 @@ export default forwardRef(({
   setMessages
 }, ref) => {
 
-  const { oauth,avatarUser,gravatar } = useContext(Context)
+  const { oauth,avatarUser,gravatar,usersChannel,setUsersChannel } = useContext(Context)
   const [state,setState]=useState(false)
   // const [stateEdit,setStateEdit]=useState({showEdit:false} , {idMessage: null})
   const [editContent,setEditContent]=useState('')
@@ -83,6 +83,8 @@ export default forwardRef(({
   const [idEditedMessage,setIdEditedChannelId]=useState(null)
   const[editedChannelId,setEditedChannelId]=useState('')
   const[editedCreation,setEditedCreation]=useState('')
+
+
   const styles = useStyles(useTheme())
 
    useEffect( () => {
@@ -94,8 +96,9 @@ export default forwardRef(({
               'Authorization': `Bearer ${oauth.access_token}`
           }
         })
-        console.log(messages)
         setMessages(messages)
+        setUsersChannel()
+        console.log("userChannel",usersChannel)
       }catch(err){
         console.error(err)
         console.log('errpr')
@@ -191,14 +194,46 @@ export default forwardRef(({
             return (
               <li key={i} css={styles.message}>
               <div style={{display:'flex'}}>
-                <div>
-                {
-                  gravatar ?
-                  <Gravatar email={oauth.email} />
-                  :
-                  <Avatar src={avatarUser}/>
 
-                }</div>
+
+                {
+                  usersChannel.map((user,i)=> {
+
+                  return(
+                    <div key={i}>
+                    {(() => {
+
+                      if (  gravatar && user.username===oauth.name && user.username===message.author) {
+
+                        return (
+                          <div>
+                          <Gravatar email={user.email} />
+                          </div>
+                        )
+                      } else if(gravatar &&  user.username!==oauth.name && user.username===message.author ) {
+
+                        return (
+                          <div>
+                          <Avatar src={user.avatar}/>
+                          </div>
+                        )
+                      }
+                      else if(user.username===message.author && !gravatar){
+                        return (
+                          <div>
+                          <Avatar src={user.avatar}/>
+                          </div>
+                        )
+                      }
+                    })()}
+                    </div>
+
+                  )
+
+
+                })
+                }
+
                 <div>
                   <span>{message.author}</span>
                   {' - '}
@@ -224,7 +259,7 @@ export default forwardRef(({
               :
               <span></span>
             }</div>
-                
+
                 </div>
                 <div dangerouslySetInnerHTML={{__html: value}}>
                 </div>
