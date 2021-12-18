@@ -36,6 +36,7 @@ export default function FormUser({
 
   const handleClickOpen = () => {
     setOpen(true);
+    console.log(channel)
   };
   const handleClose = () => {
     setOpen(false);
@@ -67,7 +68,7 @@ export default function FormUser({
       </Button>
       
      <Dialog open={open} onClose={handleClose}>
-       <DialogTitle>add user</DialogTitle>
+       <DialogTitle> user</DialogTitle>
        <DialogContent>
          <TextField
          id="outlined-multiline-flexible"

@@ -25,6 +25,7 @@ import dayjs from 'dayjs'
 import calendar from 'dayjs/plugin/calendar'
 import updateLocale from 'dayjs/plugin/updateLocale'
 import FormUser from '../FormUser';
+import ListUser from '../ListUser';
 import { display } from '@mui/system';
 
 dayjs.extend(calendar)
@@ -105,7 +106,7 @@ export default forwardRef(({
     }
     fetch()
     setState(false)
-    console.log("fetch1:",state)
+    console.log("fetch1:",channel)
  },[state])
   // Expose the `scroll` action
   useImperativeHandle(ref, () => ({
@@ -171,7 +172,10 @@ export default forwardRef(({
     <div css={styles.root} ref={rootEl}>
       <div style={{display: 'flex',justifyContent:'space-between',border:'solid'}}>
          <h1>Messages for {channel.name}</h1>
-         <FormUser channel={channel} />
+         <div style={{display:'flex'}}>
+          <ListUser channel={channel} />
+          <FormUser channel={channel} />
+         </div>
       </div>
       <ul>
         { messages.map( (message, i) => {

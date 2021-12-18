@@ -63,7 +63,7 @@ export default function Channels() {
     <ul css={styles.root}>
       <ListItem  button css={styles.channel}>
 
-         <Link to="/channels" component={RouterLink}>Welcome</Link>
+         <Link  underline="none" to="/channels" component={RouterLink}>Welcome</Link>
          <ListItemIcon edge='end' aria-label="comments">
             <HomeIcon/>
           </ListItemIcon>
@@ -75,7 +75,7 @@ export default function Channels() {
         
           <ListItemButton variant="outlined">
               
-          <Link
+          <Link  underline="none"
             href={`/channels/${channel.id}`}
             onClick={ (e) => {
               e.preventDefault()
