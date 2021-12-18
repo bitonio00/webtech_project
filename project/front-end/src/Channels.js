@@ -19,16 +19,16 @@ const styles = {
     '& a': {
       padding: '.2rem .5rem',
       whiteSpace: 'nowrap',
-      
+
     },
-    
+
   },
 }
 
 export default function Channels() {
   const {
     oauth,
-    channels, setChannels
+    channels, setChannels,setAvatarUser
   } = useContext(Context)
   const navigate = useNavigate();
   useEffect( () => {console.log('yo')
@@ -41,6 +41,7 @@ export default function Channels() {
             'Email':oauth.email
           }
         })
+        setAvatarUser(oauth.name)
         setChannels(channels)
       }catch(err){
         console.error(err)
