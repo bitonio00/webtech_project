@@ -60,7 +60,7 @@ Les membres du channel peuvent ajouter des membres  uniquement si l'utilisateur 
 
 ![alt](IMG/messages.png)
 Les messages sont restreints aux channels dans lesquels ils ont été envoyer.
-Seul l'utilisateur qui envoie le message peux le supprimer ou bien les modifier.
+Seul l'utilisateur qui envoie le message peux le supprimer ou bien le modifier.
 
 #### e. Settings :
 
@@ -74,7 +74,7 @@ L'utilisateur peux choisir d'associer son gravatar associer à son email grâce 
 
 #### g.  Avatar :
 
-De base les utilisateurs ont tous le même avatar dans les settings, ils peuvent en choisir un parmis 6 proposés
+De base les utilisateurs ont tous le même avatar dans les settings, ils peuvent en choisir un parmis 4 proposés
 
 #### h.  Upload Avatar :
 
