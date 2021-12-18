@@ -19,13 +19,10 @@ const styles = {
     '& a': {
       padding: '.2rem .5rem',
       whiteSpace: 'nowrap',
-     
-      
-      
     },
-   
-    
-  },
+
+
+    },
    channel :{ 
     display :'flex',
     justifyContent:'space-between',
@@ -38,19 +35,20 @@ const styles = {
 export default function Channels() {
   const {
     oauth,
-    channels, setChannels
+    channels, setChannels,setAvatarUser
   } = useContext(Context)
   const navigate = useNavigate();
   useEffect( () => {console.log('yo')
     const fetch = async () => {
       try{
           console.log('fetch:channels')
-        const {data: channels} = await axios.get(`http://127.0.0.1:3001/channels/${oauth.name}`, {
+        const {data: channels} = await axios.get(`http://localhost:3001/channels/${oauth.name}`, {
          headers: {
             'Authorization': `Bearer ${oauth.access_token}`,
             'Email':oauth.email
           }
         })
+        setAvatarUser(oauth.name)
         setChannels(channels)
       }catch(err){
         console.error(err)

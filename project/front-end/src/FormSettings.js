@@ -322,7 +322,8 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
                     </td>
                     <td>
 
-                      {gravatar=== true?<Gravatar email={oauth.email} />
+                      {gravatar=== true?
+                      <Gravatar email={oauth.email} />
                       :<Avatar src={avatar}/>}
 
 
