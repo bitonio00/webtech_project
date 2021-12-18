@@ -19,10 +19,20 @@ const styles = {
     '& a': {
       padding: '.2rem .5rem',
       whiteSpace: 'nowrap',
+     
+      
       
     },
+   
     
   },
+   channel :{ 
+    display :'flex',
+    justifyContent:'space-between',
+     border:'solid',
+     height :'100%'
+    
+   }
 }
 
 export default function Channels() {
@@ -35,7 +45,7 @@ export default function Channels() {
     const fetch = async () => {
       try{
           console.log('fetch:channels')
-        const {data: channels} = await axios.get(`http://localhost:3001/channels/${oauth.name}`, {
+        const {data: channels} = await axios.get(`http://127.0.0.1:3001/channels/${oauth.name}`, {
          headers: {
             'Authorization': `Bearer ${oauth.access_token}`,
             'Email':oauth.email
@@ -59,7 +69,9 @@ export default function Channels() {
       { channels.map( (channel, i) => (
        console.log(channel.users),
         <ListItem  button key={i} css={styles.channel}>
+        
           <ListItemButton variant="outlined">
+              
           <Link
             href={`/channels/${channel.id}`}
             onClick={ (e) => {
@@ -67,11 +79,11 @@ export default function Channels() {
               navigate(`/channels/${channel.id}`)
             }}
           >
-            {channel.name}
+        <div> <ListItemText>   {channel.name} </ListItemText> </div>
           </Link>
-          <ListItemIcon edge='end' aria-label="comments">
+         <div><ListItemIcon edge='end' aria-label="comments">
             <CommentIcon/>
-          </ListItemIcon>
+          </ListItemIcon></div> 
           </ListItemButton>
       </ListItem>
       ))}

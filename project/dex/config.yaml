@@ -4,7 +4,7 @@
 # The base path of dex and the external name of the OpenID Connect service.
 # This is the canonical URL that all clients MUST use to refer to dex. If a
 # path is provided, dex's HTTP service will listen at a non-root URL.
-issuer: http://127.0.0.1:5556/dex
+issuer: http://localhost:5556/dex
 
 # The storage configuration determines where dex stores its state. Supported
 # options include SQL flavors and Kubernetes third party resources.
@@ -109,7 +109,7 @@ telemetry:
 staticClients:
 - id: example-app
   redirectURIs:
-  - 'http://127.0.0.1:5555/callback'
+  - 'http://localhost:5555/callback'
   #- 'http://localhost:3000/callback'
   name: 'Example App'
   # secret: ZXhhbXBsZS1hcHAtc2VjcmV0
@@ -120,7 +120,7 @@ staticClients:
   public: true
 - id: webtech-frontend
   redirectURIs:
-  - 'http://127.0.0.1:3000'
+  - 'http://localhost:3000'
 
   name: 'Front End App'
   # secret: ZXhhbXBsZS1hcHAtc2VjcmV0
@@ -152,9 +152,9 @@ connectors:
   name: GitHub
   config:
     # Credentials can be string literals or pulled from the environment.
-    clientID: 6e5dd2d56998b27cdab5
-    clientSecret: acade558da4a62a6e523e76dae41caa3b27cfd38
-    redirectURI: http://127.0.0.1:5556/dex/callback
+    clientID: e8a3c8b371434926460a
+    clientSecret: d1f37d4c582ecf058e024c9f6702843a8e7568b6
+    redirectURI: http://localhost:5556/dex/callback
 
 # Let dex keep a list of passwords which can be used to login to dex.
 enablePasswordDB: true

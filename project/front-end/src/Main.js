@@ -28,9 +28,11 @@ const useStyles = (theme) => ({
   drawer: {
     width: '200px',
     display: 'none',
+    
   },
   drawerVisible: {
     display: 'block',
+    
   },
 })
 

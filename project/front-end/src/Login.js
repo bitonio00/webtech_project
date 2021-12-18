@@ -138,10 +138,10 @@ export default function Login({
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const {oauth, setOauth} = useContext(Context)
   const config = {
-    authorization_endpoint: 'http://127.0.0.1:5556/dex/auth',
-    token_endpoint: 'http://127.0.0.1:5556/dex/token',
+    authorization_endpoint: 'http://localhost:5556/dex/auth',
+    token_endpoint: 'http://localhost:5556/dex/token',
     client_id: 'webtech-frontend',
-    redirect_uri: 'http://127.0.0.1:3000',
+    redirect_uri: 'http://localhost:3000',
     scope: 'openid%20email%20offline_access%20profile',
   }
   const params = new URLSearchParams(window.location.search)
