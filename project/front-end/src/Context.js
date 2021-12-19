@@ -48,9 +48,9 @@ export const Provider = ({
             'Authorization': `Bearer ${oauth.access_token}`
           }
         })
-      
+
         setAvatarUser(user.avatar)
-          console.log('avatarUSERu',avatarUser)
+
       },
       usersChannel:usersChannel,
       setUsersChannel:async ()=>
@@ -63,7 +63,7 @@ export const Provider = ({
         })
 
         setUsersChannel(users)
-        console.log('dans context',usersChannel)
+  
       },
       channels: channels,
       gravatar: gravatar,

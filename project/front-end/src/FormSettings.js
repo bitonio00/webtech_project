@@ -57,9 +57,9 @@ export default function FormChannel({
 
 
   useEffect( () => {
-console.log("fetch----------------")
+
    const fetch = async () => {
-    // console.log(oauth.username)
+
      try{
 
        const {data: user} = await axios.get(`http://localhost:3001/users/${oauth.name}`,{
@@ -67,12 +67,12 @@ console.log("fetch----------------")
              'Authorization': `Bearer ${oauth.access_token}`
          }
        })
-       console.log("user----------------",user)
+
 
        setNationalitie(user.nationalitie)
        setLanguage(user.language)
        setAvatar(user.avatar)
-       console.log(user)
+
      }catch(err){
        console.error(err)
      }
@@ -130,14 +130,13 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
     setLanguage(e.target.value);
   };
   const handleChangeAvatar = (image) => {
-    console.log('click image')
     setAvatar(image);
-    console.log(avatar)
+
   };
 
   const handleChangeSwitch = (e) => {
     setGravatar(e.target.checked);
-    console.log(gravatar);
+
   };
 
 
@@ -154,7 +153,6 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
     }
 
 
-     console.log('UPDATE NATION',userObj)
   const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
     headers: {
         'Authorization': `Bearer ${oauth.access_token}`
@@ -181,7 +179,6 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
           avatar: avatar,
         }
 
-         console.log('UPDATE LANG',userObj)
       const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
         headers: {
             'Authorization': `Bearer ${oauth.access_token}`
@@ -208,7 +205,7 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
           }
 
 
-           console.log('UPDATE Avatar',userObj)
+
         const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
           headers: {
               'Authorization': `Bearer ${oauth.access_token}`
@@ -231,7 +228,6 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
  {
 
 
-   console.log('UPDATE image',files[0])
    const base64 = await convertBase64(files[0]);
     setBaseImage(base64)
 
@@ -242,7 +238,7 @@ const { getRootProps, getInputProps } = useDropzone({multiple:false,
       language :language,
       avatar:base64
     }
-    console.log("grossepute",base64)
+
   const res = await axios.put(`http://localhost:3001/users/${oauth.name}`, {user: userObj},{
   headers: {
       'Authorization': `Bearer ${oauth.access_token}`

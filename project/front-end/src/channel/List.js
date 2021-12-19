@@ -98,10 +98,8 @@ export default forwardRef(({
         })
         setMessages(messages)
         setUsersChannel()
-        console.log("userChannel",usersChannel)
       }catch(err){
-        console.error(err)
-        console.log('errpr')
+
       }
 
 
@@ -109,7 +107,6 @@ export default forwardRef(({
     }
     fetch()
     setState(false)
-    console.log("fetch1:",channel)
  },[state])
   // Expose the `scroll` action
   useImperativeHandle(ref, () => ({

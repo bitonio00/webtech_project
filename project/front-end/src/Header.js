@@ -19,7 +19,7 @@ const useStyles = (theme) => ({
     display:'flex',
     border:'solid',
     justifyContent:'space-between'
-    
+
   },
   headerLogIn: {
     backgroundColor: 'red',
@@ -50,11 +50,11 @@ export default function Header({
     setOauth(null)
   }
   useEffect( () => {
-    console.log('IMG')
+
     const fetch = async () => {
       if(oauth)
       setAvatarUser(oauth.username)
-      console.log('avatar user',avatarUser)
+
     }
     fetch()
   }, [avatarUser,gravatar])
@@ -63,7 +63,7 @@ export default function Header({
     <header css={styles.header}>
       <div>
 
- 
+
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -77,7 +77,7 @@ export default function Header({
       {(() => {
         if (  gravatar && oauth ) {
           return (
-            
+
             <div style={{display:'flex'}}>
               <Gravatar email={oauth.email} />
               <p>{oauth.name}</p>
@@ -103,7 +103,7 @@ export default function Header({
               <span></span>
               )
           }
-        
+
       })()}
 
   </div>
@@ -111,16 +111,16 @@ export default function Header({
       {
         oauth ?
           <span>
-            
+
             <Button variant='contained' onClick={onClickLogout}>logout <LogoutIcon/></Button>
           </span>
         :
           <span>new user</span>
       }
 </div>
-     
 
-    
+
+
     </header>
   );
 }

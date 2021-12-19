@@ -20,7 +20,7 @@ const useStyles = (theme) => ({
     flexDirection:'column',
     background: '#E3E2DF',
     color:'#0B0C10',
-    
+
   },
   card: {
     textAlign: 'center',
@@ -41,7 +41,7 @@ const useStyles = (theme) => ({
     fontWeight :'bold'
 
   },
- 
+
 })
 
 export default function Welcome() {
@@ -51,7 +51,7 @@ export default function Welcome() {
       <div css={styles.title}>
        <h1>React Chat App</h1>
       <h3> best chat app ever</h3>
-     
+
      </div>
      <div>
       <Grid
@@ -63,7 +63,7 @@ export default function Welcome() {
       >
         <Grid item xs>
           <div css={styles.card}>
-          
+
             <FormChannel />
             <h3>Clik on the image for create a channel :</h3>
             <p>then chose a name and user, a channel will Be create </p>
@@ -85,12 +85,12 @@ export default function Welcome() {
           <div css={styles.card}>
           <Button variant="text">
           <Link to ='/settings' component={RouterLink}>
-            
+
              <SettingsIcon css={styles.icon} />
                <Typography color="textPrimary">
                  Settings
               </Typography>
-              
+
            </Link>
            </Button>
               <h3>here is your settings :</h3>

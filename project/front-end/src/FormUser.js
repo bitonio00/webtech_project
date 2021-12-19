@@ -36,7 +36,7 @@ export default function FormUser({
 
   const handleClickOpen = () => {
     setOpen(true);
-    console.log(channel)
+
   };
   const handleClose = () => {
     setOpen(false);
@@ -45,7 +45,6 @@ export default function FormUser({
 
   const onSubmit = async () => {
     channel.users.push(user)
-    console.log(channel.users)
     await axios.put(`http://localhost:3001/channels/${channel.id}`,{edited : channel},
       {
       headers: {
@@ -65,7 +64,7 @@ export default function FormUser({
     }
 
   }
-  
+
   return (
     <div>
        <Button varitant='outlined' onClick={handleClickOpen}  style={{width:'100px',height:'100px'}}>

@@ -24,13 +24,13 @@ const styles = {
 
 
     },
-   channel :{ 
+   channel :{
     display :'flex',
     justifyContent:'space-between',
      border:'solid',
      borderRadius:'15px',
      height :'100%'
-    
+
    }
 }
 
@@ -40,10 +40,10 @@ export default function Channels() {
     channels, setChannels,setAvatarUser
   } = useContext(Context)
   const navigate = useNavigate();
-  useEffect( () => {console.log('yo')
+  useEffect( () => {
     const fetch = async () => {
       try{
-          console.log('fetch:channels')
+
         const {data: channels} = await axios.get(`http://localhost:3001/channels/${oauth.name}`, {
          headers: {
             'Authorization': `Bearer ${oauth.access_token}`,
@@ -70,11 +70,11 @@ export default function Channels() {
 
       </ListItem>
       { channels.map( (channel, i) => (
-       console.log(channel.users),
+    
         <ListItem  button key={i} css={styles.channel}>
-        
+
           <ListItemButton variant="outlined">
-              
+
           <Link  underline="none"
             href={`/channels/${channel.id}`}
             onClick={ (e) => {
@@ -86,7 +86,7 @@ export default function Channels() {
           </Link>
          <div><ListItemIcon edge='end' aria-label="comments">
             <CommentIcon/>
-          </ListItemIcon></div> 
+          </ListItemIcon></div>
           </ListItemButton>
       </ListItem>
       ))}
